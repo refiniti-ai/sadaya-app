@@ -182,23 +182,37 @@ export enum RecurringCycle {
   MONTHLY = 'Monthly'
 }
 
+export enum PayoutType {
+  FLAT = 'Flat Fee',
+  PERCENTAGE = 'Percentage'
+}
+
 export interface ClassEvent {
   id: string;
+  seriesId?: string; // To link recurring events together
   name: string;
   description: string;
   coverImage: string;
   price: number;
   date: string;
   time: string;
+  duration: string; // e.g., "60 mins", "2 hours"
   totalSeats: number;
   availableSeats: number;
   isRecurring: boolean;
   recurringCycle?: RecurringCycle;
-  facilitatorId: string; // Staff ID
+  facilitatorId: string;
   facilitatorName: string;
   facilitatorPicture?: string;
   facilitatorBio?: string;
-  facilitatorPayout: number; // Only visible to Admin and the Facilitator
+  facilitatorPayoutType: PayoutType;
+  facilitatorPayoutValue: number; // Amount or Percentage
+  organizerId?: string;
+  organizerName?: string;
+  organizerPicture?: string;
+  organizerBio?: string;
+  organizerPayoutType?: PayoutType;
+  organizerPayoutValue?: number; // Amount or Percentage
   attendees: string[]; // User IDs
 }
 

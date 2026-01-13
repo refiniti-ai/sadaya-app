@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { ViewState, UserRole, Invoice, Organization, Project, Task, User, TaskStatus, Proposal, ProposalStatus, SupportTicket, DriveItem, WaiverRecord, ClassEvent, RecurringCycle } from './types';
+import { ViewState, UserRole, Invoice, Organization, Project, Task, User, TaskStatus, Proposal, ProposalStatus, SupportTicket, DriveItem, WaiverRecord, ClassEvent, RecurringCycle, PayoutType } from './types';
 import { WaiverForm } from './components/WaiverForm';
 import { WaiversModule } from './components/WaiversModule';
 import { ProposalBuilder } from './components/ProposalBuilder';
@@ -570,6 +570,7 @@ const App: React.FC = () => {
       price: 25,
       date: getFutureDate(2),
       time: '07:00',
+      duration: '60 mins',
       totalSeats: 15,
       availableSeats: 12,
       isRecurring: true,
@@ -578,7 +579,8 @@ const App: React.FC = () => {
       facilitatorName: 'Dr. Aris (Naturopath)',
       facilitatorPicture: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&h=100&fit=crop',
       facilitatorBio: 'Licensed Naturopathic Doctor specializing in detox and nutritional recovery.',
-      facilitatorPayout: 15,
+      facilitatorPayoutType: PayoutType.FLAT,
+      facilitatorPayoutValue: 15,
       attendees: ['c1', 'c2']
     },
     {
@@ -589,6 +591,7 @@ const App: React.FC = () => {
       price: 150,
       date: getFutureDate(5),
       time: '14:00',
+      duration: '2 hours',
       totalSeats: 10,
       availableSeats: 4,
       isRecurring: false,
@@ -597,7 +600,8 @@ const App: React.FC = () => {
       facilitatorName: 'Sadaya Admin',
       facilitatorPicture: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
       facilitatorBio: 'Lead administrator at Sadaya Sanctuary with over 15 years of experience in holistic wellness management.',
-      facilitatorPayout: 80,
+      facilitatorPayoutType: PayoutType.PERCENTAGE,
+      facilitatorPayoutValue: 50,
       attendees: ['c1']
     }
   ]);
