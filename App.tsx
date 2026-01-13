@@ -23,6 +23,7 @@ import {
   LogOut,
   Menu,
   Users,
+  Calendar,
   CheckCircle,
   FileText,
   Plus,
