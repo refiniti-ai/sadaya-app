@@ -184,7 +184,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                         <select 
                             value={activeOrgId}
                             onChange={(e) => setActiveOrgId(e.target.value)}
-                            className="w-full bg-[#0f172a] border border-white/10 rounded-lg p-2 pl-9 text-sm text-white appearance-none outline-none focus:border-refiniti-cyan font-bold"
+                            className="w-full bg-[#0f172a] border border-white/10 rounded-lg p-2 pl-9 text-sm text-white appearance-none outline-none focus:border-sadaya-gold font-bold"
                         >
                             {availableOrgs.map(org => <option key={org.id} value={org.id}>{org.name}</option>)}
                         </select>
@@ -204,7 +204,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                                 <div 
                                     key={channel.id}
                                     onClick={() => setActiveChannelId(channel.id)}
-                                    className={`group flex items-center justify-between px-3 py-1.5 rounded-md cursor-pointer text-sm transition-colors ${activeChannelId === channel.id ? 'bg-refiniti-cyan/20 text-white font-medium' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'}`}
+                                    className={`group flex items-center justify-between px-3 py-1.5 rounded-md cursor-pointer text-sm transition-colors ${activeChannelId === channel.id ? 'bg-sadaya-gold/20 text-white font-medium' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'}`}
                                 >
                                     <div className="flex items-center gap-2 truncate">
                                         {channel.type === 'private' ? <Lock className="w-3 h-3"/> : <Hash className="w-3 h-3"/>}
@@ -283,7 +283,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                                         <Hash className="w-8 h-8 text-slate-500"/>
                                     </div>
                                     <h3 className="text-white font-bold text-xl mb-2">Welcome to #{activeChannel.name}!</h3>
-                                    <p className="text-slate-400 text-sm">This is the start of the <span className="text-refiniti-cyan">@{activeOrg?.name}</span> channel.</p>
+                                    <p className="text-slate-400 text-sm">This is the start of the <span className="text-sadaya-gold">@{activeOrg?.name}</span> channel.</p>
                                 </div>
                             ) : (
                                 channelMessages.map((msg, idx) => {
@@ -308,7 +308,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                                                 )}
                                                 <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
                                                     {msg.text.split(/(@[\w\s]+)/g).map((part, i) => 
-                                                        part.startsWith('@') ? <span key={i} className="bg-refiniti-cyan/20 text-refiniti-cyan px-1 rounded font-medium">{part}</span> : part
+                                                        part.startsWith('@') ? <span key={i} className="bg-sadaya-gold/20 text-sadaya-gold px-1 rounded font-medium">{part}</span> : part
                                                     )}
                                                 </p>
                                             </div>
@@ -320,7 +320,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
 
                         {/* Input Area */}
                         <div className="p-4 pt-2">
-                            <div className="relative bg-white/5 border border-white/10 rounded-xl focus-within:border-refiniti-cyan/50 focus-within:bg-black/40 transition-all">
+                            <div className="relative bg-white/5 border border-white/10 rounded-xl focus-within:border-sadaya-gold/50 focus-within:bg-black/40 transition-all">
                                 {/* Mention Popover */}
                                 {mentionQuery !== null && (
                                     <div className="absolute bottom-full left-0 mb-2 w-64 bg-[#1e293b] border border-white/10 rounded-lg shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-2">
@@ -364,7 +364,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                                     <button 
                                         onClick={handleSendMessage}
                                         disabled={!messageInput.trim()}
-                                        className="p-2 bg-refiniti-cyan text-black rounded-lg hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                        className="p-2 bg-sadaya-gold text-black rounded-lg hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                     >
                                         <Send className="w-4 h-4"/>
                                     </button>
@@ -396,7 +396,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                                     <input 
                                         value={newChannelName}
                                         onChange={(e) => setNewChannelName(e.target.value)}
-                                        className="w-full bg-white/5 border border-white/10 rounded-lg pl-9 pr-3 py-2.5 text-white outline-none focus:border-refiniti-cyan"
+                                        className="w-full bg-white/5 border border-white/10 rounded-lg pl-9 pr-3 py-2.5 text-white outline-none focus:border-sadaya-gold"
                                         placeholder="e.g. marketing-updates"
                                     />
                                 </div>
@@ -406,14 +406,14 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                                 <div className="flex gap-4">
                                     <button 
                                         onClick={() => setNewChannelType('public')}
-                                        className={`flex-1 p-3 rounded-lg border flex flex-col items-center gap-2 transition-all ${newChannelType === 'public' ? 'bg-refiniti-cyan/10 border-refiniti-cyan text-white' : 'bg-white/5 border-white/10 text-slate-400'}`}
+                                        className={`flex-1 p-3 rounded-lg border flex flex-col items-center gap-2 transition-all ${newChannelType === 'public' ? 'bg-sadaya-gold/10 border-sadaya-gold text-white' : 'bg-white/5 border-white/10 text-slate-400'}`}
                                     >
                                         <Hash className="w-5 h-5"/>
                                         <span className="text-xs font-bold">Public</span>
                                     </button>
                                     <button 
                                         onClick={() => setNewChannelType('private')}
-                                        className={`flex-1 p-3 rounded-lg border flex flex-col items-center gap-2 transition-all ${newChannelType === 'private' ? 'bg-refiniti-cyan/10 border-refiniti-cyan text-white' : 'bg-white/5 border-white/10 text-slate-400'}`}
+                                        className={`flex-1 p-3 rounded-lg border flex flex-col items-center gap-2 transition-all ${newChannelType === 'private' ? 'bg-sadaya-gold/10 border-sadaya-gold text-white' : 'bg-white/5 border-white/10 text-slate-400'}`}
                                     >
                                         <Lock className="w-5 h-5"/>
                                         <span className="text-xs font-bold">Private</span>
@@ -423,7 +423,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                         </div>
                         <div className="flex justify-end gap-3 mt-8">
                             <button onClick={() => setShowCreateChannel(false)} className="px-4 py-2 text-slate-400 hover:text-white text-sm">Cancel</button>
-                            <button onClick={handleCreateChannel} className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white text-sm">Create Channel</button>
+                            <button onClick={handleCreateChannel} className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white text-sm">Create Channel</button>
                         </div>
                     </div>
                 </div>
@@ -447,7 +447,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                                     <div 
                                         key={user.id}
                                         onClick={() => toggleChannelMember(user.id)}
-                                        className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${isMember ? 'bg-refiniti-cyan/10 border-refiniti-cyan/50' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}
+                                        className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${isMember ? 'bg-sadaya-gold/10 border-sadaya-gold/50' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}
                                     >
                                         <div className="flex items-center gap-3">
                                             <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-white">
@@ -458,13 +458,13 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                                                 <div className="text-xs text-slate-500">{user.role}</div>
                                             </div>
                                         </div>
-                                        {isMember && <CheckCircle className="w-5 h-5 text-refiniti-cyan"/>}
+                                        {isMember && <CheckCircle className="w-5 h-5 text-sadaya-gold"/>}
                                     </div>
                                 );
                             })}
                         </div>
                         <div className="p-6 border-t border-white/10 text-right">
-                            <button onClick={() => setShowManageMembers(false)} className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white text-sm">Done</button>
+                            <button onClick={() => setShowManageMembers(false)} className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white text-sm">Done</button>
                         </div>
                     </div>
                 </div>

@@ -44,7 +44,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, handleDragStart, setActiveTas
             e.stopPropagation();
             setActiveTask(task);
         }}
-        className="glass-panel p-4 rounded-lg hover:border-refiniti-cyan/50 cursor-pointer group transition-all mb-3 relative active:cursor-grabbing border-l-2 flex flex-col gap-2 w-full z-10"
+        className="glass-panel p-4 rounded-lg hover:border-sadaya-gold/50 cursor-pointer group transition-all mb-3 relative active:cursor-grabbing border-l-2 flex flex-col gap-2 w-full z-10"
         style={{ borderLeftColor: task.priority === 'High' ? '#ef4444' : task.priority === 'Medium' ? '#eab308' : '#3b82f6' }}
     >
         <div className="flex justify-between items-start">
@@ -55,9 +55,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, handleDragStart, setActiveTas
              ) : (
                  <span></span>
              )}
-             {task.attachments && task.attachments.length > 0 && <Paperclip className="w-3 h-3 text-refiniti-cyan"/>}
+             {task.attachments && task.attachments.length > 0 && <Paperclip className="w-3 h-3 text-sadaya-gold"/>}
         </div>
-        <h4 className="text-white font-medium group-hover:text-refiniti-cyan transition-colors text-sm text-left">{task.title}</h4>
+        <h4 className="text-white font-medium group-hover:text-sadaya-gold transition-colors text-sm text-left">{task.title}</h4>
         
         {task.checklist.length > 0 && (
             <div className="w-full bg-white/5 h-1 rounded-full overflow-hidden">
@@ -88,7 +88,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, handleDragStart, setActiveTas
         >
             <span className="text-[10px] text-slate-500 uppercase font-bold">Move To</span>
             <select 
-                className="bg-[#0f172a] border border-white/10 rounded px-1 py-0.5 text-[10px] text-slate-300 outline-none hover:border-refiniti-cyan cursor-pointer w-24"
+                className="bg-[#0f172a] border border-white/10 rounded px-1 py-0.5 text-[10px] text-slate-300 outline-none hover:border-sadaya-gold cursor-pointer w-24"
                 value={task.status}
                 onChange={(e) => updateTaskState(task.id, { status: e.target.value as TaskStatus })}
             >
@@ -444,12 +444,22 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
       if (newProjectForm.strategy.length > 10) {
           setIsTaskGenerating(true);
           const generatedTasks = await generateProjectTasks(newProjectForm.strategy, newProjectForm.title);
+          
+          // Helper to get future date
+          const getFutureDate = (daysFromNow: number) => {
+              const d = new Date();
+              d.setDate(d.getDate() + daysFromNow);
+              return d.toISOString().split('T')[0];
+          };
+          
           const fullTasks = generatedTasks.map((t, idx) => ({
               ...t,
               id: `t-${Date.now()}-${idx}`,
               projectId: projectId,
               clientId: selectedOrgId,
+              status: TaskStatus.TODO, // Default status for Kanban
               assignee: 'Unassigned',
+              dueDate: getFutureDate(7 + idx * 3), // Stagger due dates: 7, 10, 13, 16... days from now
               priority: t.priority || 'Medium',
               checklist: t.checklist || [],
               isArchived: false
@@ -582,7 +592,7 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                                                   onChange={(e) => updateTaskState(task.id, { status: e.target.value as TaskStatus })}
                                                   className={`text-[10px] uppercase font-bold bg-[#0f172a] border-none outline-none cursor-pointer mt-1 ${
                                                       task.status === TaskStatus.DONE ? 'text-green-400' : 
-                                                      task.status === TaskStatus.IN_PROGRESS ? 'text-refiniti-cyan' : 'text-slate-500'
+                                                      task.status === TaskStatus.IN_PROGRESS ? 'text-sadaya-gold' : 'text-slate-500'
                                                   }`}
                                               >
                                                   {Object.values(TaskStatus).map(s => <option key={s} value={s} className="bg-slate-800 text-slate-200">{s}</option>)}
@@ -598,7 +608,7 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                                       {diffDays >= 0 && diffDays < 30 && (
                                           <div 
                                               className={`absolute top-3 h-6 rounded-md flex items-center px-2 text-xs font-bold text-black whitespace-nowrap overflow-hidden cursor-pointer shadow-lg hover:scale-105 transition-transform z-10
-                                                ${task.status === 'Done' ? 'bg-green-400' : task.priority === 'High' ? 'bg-red-400' : 'bg-refiniti-cyan'}
+                                                ${task.status === 'Done' ? 'bg-green-400' : task.priority === 'High' ? 'bg-red-400' : 'bg-sadaya-gold'}
                                               `}
                                               style={{
                                                   left: `${startOffset * 96 + (startOffset > 0 ? 1 : 0)}px`,
@@ -678,9 +688,9 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                   </div>
                   <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
                       <div className="flex bg-black/40 rounded-lg p-1 border border-white/10">
-                          <button onClick={() => setTaskViewMode('kanban')} className={`p-2 rounded transition-all ${taskViewMode === 'kanban' ? 'bg-white/10 text-refiniti-cyan shadow-sm' : 'text-slate-500 hover:text-white'}`}><LayoutGrid className="w-4 h-4"/></button>
+                          <button onClick={() => setTaskViewMode('kanban')} className={`p-2 rounded transition-all ${taskViewMode === 'kanban' ? 'bg-white/10 text-sadaya-gold shadow-sm' : 'text-slate-500 hover:text-white'}`}><LayoutGrid className="w-4 h-4"/></button>
                           <div className="w-px bg-white/10 my-1 mx-1"></div>
-                          <button onClick={() => setTaskViewMode('gantt')} className={`p-2 rounded transition-all ${taskViewMode === 'gantt' ? 'bg-white/10 text-refiniti-cyan shadow-sm' : 'text-slate-500 hover:text-white'}`}><StretchHorizontal className="w-4 h-4"/></button>
+                          <button onClick={() => setTaskViewMode('gantt')} className={`p-2 rounded transition-all ${taskViewMode === 'gantt' ? 'bg-white/10 text-sadaya-gold shadow-sm' : 'text-slate-500 hover:text-white'}`}><StretchHorizontal className="w-4 h-4"/></button>
                       </div>
                       <div className="flex bg-black/40 rounded-lg p-1 border border-white/10">
                            <button onClick={() => setShowArchivedTasks(false)} className={`px-3 py-1.5 text-xs font-bold rounded transition-all ${!showArchivedTasks ? 'bg-white/10 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'}`}>Active</button>
@@ -750,50 +760,50 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                       <div className="p-6 border-b border-white/10 flex justify-between items-start">
                           <div className="flex-1 mr-4">
                               <div className="flex flex-wrap items-center gap-3 mb-2">
-                                  <select value={activeTask.status} onChange={(e) => updateTaskState(activeTask.id, { status: e.target.value as TaskStatus })} className="bg-[#0f172a] text-slate-300 px-2 py-0.5 rounded text-xs border border-white/10 font-mono uppercase tracking-wide outline-none focus:border-refiniti-cyan mb-2 md:mb-0">
+                                  <select value={activeTask.status} onChange={(e) => updateTaskState(activeTask.id, { status: e.target.value as TaskStatus })} className="bg-[#0f172a] text-slate-300 px-2 py-0.5 rounded text-xs border border-white/10 font-mono uppercase tracking-wide outline-none focus:border-sadaya-gold mb-2 md:mb-0">
                                       {Object.values(TaskStatus).map(s => <option key={s} value={s}>{s}</option>)}
                                   </select>
-                                  <select value={activeTask.priority} onChange={(e) => updateTaskState(activeTask.id, { priority: e.target.value as any })} className="bg-[#0f172a] text-slate-300 px-2 py-0.5 rounded text-xs border border-white/10 font-mono uppercase tracking-wide outline-none focus:border-refiniti-cyan">
+                                  <select value={activeTask.priority} onChange={(e) => updateTaskState(activeTask.id, { priority: e.target.value as any })} className="bg-[#0f172a] text-slate-300 px-2 py-0.5 rounded text-xs border border-white/10 font-mono uppercase tracking-wide outline-none focus:border-sadaya-gold">
                                       <option value="High">High Priority</option>
                                       <option value="Medium">Medium Priority</option>
                                       <option value="Low">Low Priority</option>
                                   </select>
                               </div>
-                              <input value={activeTask.title} onChange={(e) => updateTaskState(activeTask.id, { title: e.target.value })} className="text-2xl font-bold text-white font-headline bg-transparent border-b border-transparent hover:border-white/20 focus:border-refiniti-cyan outline-none w-full"/>
+                              <input value={activeTask.title} onChange={(e) => updateTaskState(activeTask.id, { title: e.target.value })} className="text-2xl font-bold text-white font-headline bg-transparent border-b border-transparent hover:border-white/20 focus:border-sadaya-gold outline-none w-full"/>
                           </div>
                           <button onClick={() => setActiveTask(null)} className="text-slate-400 hover:text-white"><X className="w-6 h-6"/></button>
                       </div>
                       <div className="flex-1 overflow-y-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6 relative">
                           <div className="md:col-span-2 space-y-6 relative order-2 md:order-1">
                               <div>
-                                  <h4 className="text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide flex items-center justify-between"><span className="flex items-center"><FileText className="w-4 h-4 mr-2"/> Description</span><button onClick={() => setIsDrivePickerOpen(true)} className="text-xs text-refiniti-cyan flex items-center hover:underline bg-refiniti-cyan/10 px-2 py-1 rounded border border-refiniti-cyan/20"><Paperclip className="w-3 h-3 mr-1"/> Attach Drive File</button></h4>
+                                  <h4 className="text-sm font-bold text-slate-300 mb-2 uppercase tracking-wide flex items-center justify-between"><span className="flex items-center"><FileText className="w-4 h-4 mr-2"/> Description</span><button onClick={() => setIsDrivePickerOpen(true)} className="text-xs text-sadaya-gold flex items-center hover:underline bg-sadaya-gold/10 px-2 py-1 rounded border border-sadaya-gold/20"><Paperclip className="w-3 h-3 mr-1"/> Attach Drive File</button></h4>
                                   <div className="relative">
-                                      <textarea value={activeTask.description} onChange={(e) => { updateTaskState(activeTask.id, { description: e.target.value }); handleInputTrigger(e.target.value, 'description'); }} className="w-full text-slate-400 text-sm leading-relaxed bg-black/20 p-4 rounded-lg border border-white/5 font-body font-light min-h-[100px] outline-none focus:border-refiniti-cyan placeholder-slate-600" placeholder="Enter task description (Use @ to tag members, # to reference attached files)..."/>
-                                      {mentionState.isOpen && mentionState.field === 'description' && (<div className="absolute top-full left-0 mt-1 w-64 bg-[#1e293b] border border-white/10 rounded-lg shadow-xl z-20 max-h-48 overflow-y-auto">{mentionState.type === 'user' && activeProject.members.map(m => (<div key={m} onClick={() => insertMention(`@${m}`)} className="p-2 hover:bg-white/10 cursor-pointer text-sm text-white flex items-center gap-2"><div className="w-5 h-5 rounded-full bg-slate-600 flex items-center justify-center text-[10px]">{m.charAt(0)}</div> {m}</div>))}{mentionState.type === 'file' && (activeTask.attachments || []).map(attId => { const f = driveItems.find(d => d.id === attId); return f ? (<div key={f.id} onClick={() => insertMention(`#${f.name}`)} className="p-2 hover:bg-white/10 cursor-pointer text-sm text-white flex items-center gap-2"><File className="w-4 h-4 text-refiniti-cyan"/> {f.name}</div>) : null; })}{mentionState.type === 'file' && (!activeTask.attachments || activeTask.attachments.length === 0) && (<div className="p-2 text-xs text-slate-500">No attachments found. Attach files first.</div>)}</div>)}
+                                      <textarea value={activeTask.description} onChange={(e) => { updateTaskState(activeTask.id, { description: e.target.value }); handleInputTrigger(e.target.value, 'description'); }} className="w-full text-slate-400 text-sm leading-relaxed bg-black/20 p-4 rounded-lg border border-white/5 font-body font-light min-h-[100px] outline-none focus:border-sadaya-gold placeholder-slate-600" placeholder="Enter task description (Use @ to tag members, # to reference attached files)..."/>
+                                      {mentionState.isOpen && mentionState.field === 'description' && (<div className="absolute top-full left-0 mt-1 w-64 bg-[#1e293b] border border-white/10 rounded-lg shadow-xl z-20 max-h-48 overflow-y-auto">{mentionState.type === 'user' && activeProject.members.map(m => (<div key={m} onClick={() => insertMention(`@${m}`)} className="p-2 hover:bg-white/10 cursor-pointer text-sm text-white flex items-center gap-2"><div className="w-5 h-5 rounded-full bg-slate-600 flex items-center justify-center text-[10px]">{m.charAt(0)}</div> {m}</div>))}{mentionState.type === 'file' && (activeTask.attachments || []).map(attId => { const f = driveItems.find(d => d.id === attId); return f ? (<div key={f.id} onClick={() => insertMention(`#${f.name}`)} className="p-2 hover:bg-white/10 cursor-pointer text-sm text-white flex items-center gap-2"><File className="w-4 h-4 text-sadaya-gold"/> {f.name}</div>) : null; })}{mentionState.type === 'file' && (!activeTask.attachments || activeTask.attachments.length === 0) && (<div className="p-2 text-xs text-slate-500">No attachments found. Attach files first.</div>)}</div>)}
                                   </div>
-                                  {activeTask.attachments && activeTask.attachments.length > 0 && (<div className="mt-3 flex flex-wrap gap-2">{activeTask.attachments.map(attId => { const f = driveItems.find(d => d.id === attId); return f ? (<div key={attId} className="flex items-center bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-slate-300"><File className="w-3 h-3 mr-2 text-refiniti-cyan"/> {f.name}</div>) : null; })}</div>)}
+                                  {activeTask.attachments && activeTask.attachments.length > 0 && (<div className="mt-3 flex flex-wrap gap-2">{activeTask.attachments.map(attId => { const f = driveItems.find(d => d.id === attId); return f ? (<div key={attId} className="flex items-center bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-slate-300"><File className="w-3 h-3 mr-2 text-sadaya-gold"/> {f.name}</div>) : null; })}</div>)}
                               </div>
                               <div>
                                   <div className="flex justify-between items-center mb-3"><h4 className="text-sm font-bold text-slate-300 uppercase tracking-wide flex items-center"><CheckSquare className="w-4 h-4 mr-2"/> Checklist</h4><span className="text-xs text-slate-500">{activeTask.checklist.filter(i => i.completed).length} / {activeTask.checklist.length}</span></div>
-                                  <div className="space-y-2">{activeTask.checklist.map(item => (<div key={item.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 border border-transparent hover:border-white/5 transition-colors group relative"><div onClick={() => toggleChecklistItem(activeTask.id, item.id)} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${item.completed ? 'bg-refiniti-cyan border-refiniti-cyan text-black' : 'border-slate-600 bg-transparent'}`}>{item.completed && <CheckCircle className="w-3.5 h-3.5"/>}</div><div className="flex-1 relative"><input value={item.text} onChange={(e) => updateChecklistText(activeTask.id, item.id, e.target.value)} className={`bg-transparent outline-none w-full text-sm ${item.completed ? 'text-slate-500 line-through' : 'text-slate-200'} placeholder-slate-600`} placeholder="Checklist item..." onClick={(e) => e.stopPropagation()}/></div><button onClick={() => deleteChecklistItem(activeTask.id, item.id)} className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100"><X className="w-4 h-4"/></button></div>))}<button onClick={() => addChecklistItem(activeTask.id)} className="flex items-center text-sm text-slate-500 hover:text-refiniti-cyan p-2"><Plus className="w-4 h-4 mr-2"/> Add item</button></div>
+                                  <div className="space-y-2">{activeTask.checklist.map(item => (<div key={item.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 border border-transparent hover:border-white/5 transition-colors group relative"><div onClick={() => toggleChecklistItem(activeTask.id, item.id)} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${item.completed ? 'bg-sadaya-gold border-sadaya-gold text-black' : 'border-slate-600 bg-transparent'}`}>{item.completed && <CheckCircle className="w-3.5 h-3.5"/>}</div><div className="flex-1 relative"><input value={item.text} onChange={(e) => updateChecklistText(activeTask.id, item.id, e.target.value)} className={`bg-transparent outline-none w-full text-sm ${item.completed ? 'text-slate-500 line-through' : 'text-slate-200'} placeholder-slate-600`} placeholder="Checklist item..." onClick={(e) => e.stopPropagation()}/></div><button onClick={() => deleteChecklistItem(activeTask.id, item.id)} className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100"><X className="w-4 h-4"/></button></div>))}<button onClick={() => addChecklistItem(activeTask.id)} className="flex items-center text-sm text-slate-500 hover:text-sadaya-gold p-2"><Plus className="w-4 h-4 mr-2"/> Add item</button></div>
                               </div>
                           </div>
                           <div className="space-y-6 order-1 md:order-2">
                               <div>
                                   <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">Custom Label</label>
                                   <div className="flex gap-2 mb-2 flex-wrap">{LABEL_COLORS.map(c => (<div key={c.bg} onClick={() => updateTaskState(activeTask.id, { label: { ...activeTask.label, color: c.bg, text: activeTask.label?.text || 'Label' } })} className={`w-5 h-5 rounded-full cursor-pointer ${activeTask.label?.color === c.bg ? 'ring-2 ring-white' : ''}`} style={{ backgroundColor: c.bg }}></div>))}</div>
-                                  <input value={activeTask.label?.text || ''} onChange={(e) => updateTaskState(activeTask.id, { label: { ...activeTask.label, color: activeTask.label?.color || '#3b82f6', text: e.target.value } })} placeholder="Label Text" className="w-full bg-[#0f172a] border border-white/10 rounded p-2 text-sm text-white outline-none focus:border-refiniti-cyan"/>
+                                  <input value={activeTask.label?.text || ''} onChange={(e) => updateTaskState(activeTask.id, { label: { ...activeTask.label, color: activeTask.label?.color || '#3b82f6', text: e.target.value } })} placeholder="Label Text" className="w-full bg-[#0f172a] border border-white/10 rounded p-2 text-sm text-white outline-none focus:border-sadaya-gold"/>
                               </div>
                               <div>
                                   <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">Assignee</label>
-                                  <select value={activeTask.assignee} onChange={(e) => updateTaskState(activeTask.id, { assignee: e.target.value })} className="w-full bg-[#0f172a] border border-white/10 rounded p-2 text-sm text-white outline-none focus:border-refiniti-cyan"><option value="Unassigned">Unassigned</option>{activeProject.members.map(m => <option key={m} value={m}>{m}</option>)}</select>
+                                  <select value={activeTask.assignee} onChange={(e) => updateTaskState(activeTask.id, { assignee: e.target.value })} className="w-full bg-[#0f172a] border border-white/10 rounded p-2 text-sm text-white outline-none focus:border-sadaya-gold"><option value="Unassigned">Unassigned</option>{activeProject.members.map(m => <option key={m} value={m}>{m}</option>)}</select>
                               </div>
                               <div>
                                   <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">Due Date</label>
-                                  <input type="date" value={activeTask.dueDate ? new Date(activeTask.dueDate).toISOString().split('T')[0] : ''} onChange={(e) => updateTaskState(activeTask.id, { dueDate: e.target.value })} className={`w-full bg-[#0f172a] border border-white/10 rounded p-2 text-sm text-white outline-none focus:border-refiniti-cyan ${getDueDateColor(activeTask.dueDate)}`}/>
+                                  <input type="date" value={activeTask.dueDate ? new Date(activeTask.dueDate).toISOString().split('T')[0] : ''} onChange={(e) => updateTaskState(activeTask.id, { dueDate: e.target.value })} className={`w-full bg-[#0f172a] border border-white/10 rounded p-2 text-sm text-white outline-none focus:border-sadaya-gold ${getDueDateColor(activeTask.dueDate)}`}/>
                               </div>
                               <div className="pt-6 border-t border-white/10 space-y-2">
-                                  <button onClick={() => archiveTask(activeTask.id)} className={`w-full py-2 flex items-center justify-center rounded-lg text-sm transition-colors ${activeTask.isArchived ? 'bg-refiniti-cyan/20 text-refiniti-cyan hover:bg-refiniti-cyan/30' : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'}`}><Archive className="w-4 h-4 mr-2"/> {activeTask.isArchived ? 'Unarchive Task' : 'Archive Task'}</button>
+                                  <button onClick={() => archiveTask(activeTask.id)} className={`w-full py-2 flex items-center justify-center rounded-lg text-sm transition-colors ${activeTask.isArchived ? 'bg-sadaya-gold/20 text-sadaya-gold hover:bg-sadaya-gold/30' : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'}`}><Archive className="w-4 h-4 mr-2"/> {activeTask.isArchived ? 'Unarchive Task' : 'Archive Task'}</button>
                                   <button onClick={() => deleteTask(activeTask.id)} className="w-full py-2 flex items-center justify-center text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded-lg text-sm transition-colors"><Trash2 className="w-4 h-4 mr-2"/> Delete Task</button>
                               </div>
                           </div>
@@ -842,7 +852,7 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                        </div>
                        <div className="p-6 border-t border-white/10 bg-black/20 flex justify-end gap-3">
                            <button onClick={() => setEditingProject(null)} className="px-4 py-2 text-slate-400 hover:text-white text-sm">Cancel</button>
-                           <button onClick={() => handleUpdateProject(editingProject)} className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white transition-colors text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)]">Save Changes</button>
+                           <button onClick={() => handleUpdateProject(editingProject)} className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white transition-colors text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)]">Save Changes</button>
                        </div>
                   </div>
               </div>
@@ -863,7 +873,7 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                           
                           {/* Internal Employees */}
                           <div>
-                              <h4 className="text-xs font-bold text-refiniti-cyan uppercase mb-3">Internal Team (Employees)</h4>
+                              <h4 className="text-xs font-bold text-sadaya-gold uppercase mb-3">Internal Team (Employees)</h4>
                               <div className="space-y-2">
                                   {teamMembers
                                     .filter(m => activeOrg.assignedEmployees?.includes(m.id)) // Only org-assigned employees
@@ -882,7 +892,7 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                                                         <div className="text-xs opacity-70">{m.role}</div>
                                                     </div>
                                                 </div>
-                                                {isMember && <CheckCircle className="w-5 h-5 text-refiniti-cyan"/>}
+                                                {isMember && <CheckCircle className="w-5 h-5 text-sadaya-gold"/>}
                                             </div>
                                         );
                                     })}
@@ -891,7 +901,7 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
 
                           {/* Client Stakeholders */}
                           <div>
-                              <h4 className="text-xs font-bold text-refiniti-cyan uppercase mb-3">Client Stakeholders</h4>
+                              <h4 className="text-xs font-bold text-sadaya-gold uppercase mb-3">Client Stakeholders</h4>
                               <div className="space-y-2">
                                   {activeOrg.users.map(u => {
                                         const isMember = activeProject.members.includes(u.name);
@@ -908,7 +918,7 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                                                         <div className="text-xs opacity-70">Client Access</div>
                                                     </div>
                                                 </div>
-                                                {isMember && <CheckCircle className="w-5 h-5 text-refiniti-cyan"/>}
+                                                {isMember && <CheckCircle className="w-5 h-5 text-sadaya-gold"/>}
                                             </div>
                                         );
                                     })}
@@ -917,7 +927,7 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
 
                       </div>
                       <div className="p-6 border-t border-white/10 bg-black/20 text-right">
-                          <button onClick={() => setIsManageProjectMembersOpen(false)} className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white transition-colors text-sm">Done</button>
+                          <button onClick={() => setIsManageProjectMembersOpen(false)} className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white transition-colors text-sm">Done</button>
                       </div>
                   </div>
               </div>
@@ -947,8 +957,8 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                   <div className="flex items-center gap-3 w-full md:w-auto">
                       {(currentUser?.role !== UserRole.CLIENT && setOrganizations) && (<button onClick={() => setIsManageTeamOpen(true)} className="bg-white/5 border border-white/10 text-slate-300 px-4 py-2 rounded-lg font-bold text-sm hover:text-white hover:bg-white/10 transition-colors flex items-center"><Shield className="w-4 h-4 mr-2"/> <span className="hidden md:inline">Manage Team</span></button>)}
                       <div className="flex bg-black/40 rounded-lg p-1 border border-white/10">
-                           <button onClick={() => setShowArchivedProjects(false)} className={`px-3 py-1 text-xs rounded ${!showArchivedProjects ? 'bg-refiniti-cyan text-black font-bold' : 'text-slate-400'}`}>Active</button>
-                           <button onClick={() => setShowArchivedProjects(true)} className={`px-3 py-1 text-xs rounded ${showArchivedProjects ? 'bg-refiniti-cyan text-black font-bold' : 'text-slate-400'}`}>Archived</button>
+                           <button onClick={() => setShowArchivedProjects(false)} className={`px-3 py-1 text-xs rounded ${!showArchivedProjects ? 'bg-sadaya-gold text-black font-bold' : 'text-slate-400'}`}>Active</button>
+                           <button onClick={() => setShowArchivedProjects(true)} className={`px-3 py-1 text-xs rounded ${showArchivedProjects ? 'bg-sadaya-gold text-black font-bold' : 'text-slate-400'}`}>Archived</button>
                       </div>
                   </div>
               </div>
@@ -956,17 +966,17 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
               {/* Projects Grid */}
               <div className="flex-1 overflow-y-auto custom-scrollbar pb-10">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
-                      <div onClick={() => setIsProjectModalOpen(true)} className="border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center p-6 text-slate-500 hover:text-refiniti-cyan hover:border-refiniti-cyan/30 hover:bg-white/5 transition-all cursor-pointer group min-h-[180px] h-full">
-                          <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform border border-white/5 group-hover:border-refiniti-cyan/20"><Plus className="w-6 h-6"/></div>
+                      <div onClick={() => setIsProjectModalOpen(true)} className="border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center p-6 text-slate-500 hover:text-sadaya-gold hover:border-sadaya-gold/30 hover:bg-white/5 transition-all cursor-pointer group min-h-[180px] h-full">
+                          <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform border border-white/5 group-hover:border-sadaya-gold/20"><Plus className="w-6 h-6"/></div>
                           <span className="font-bold text-sm uppercase tracking-wider font-headline">Initialize Project</span>
                       </div>
                       {orgProjects.map(p => {
                           const dynamicProgress = calculateProjectProgress(p.id);
                           return (
-                          <div key={p.id} onClick={() => { setSelectedProjectId(p.id); setViewLevel('project-board'); }} className={`bg-slate-900/40 border p-5 rounded-xl hover:bg-white/5 cursor-pointer transition-all relative overflow-hidden group min-h-[180px] h-full flex flex-col justify-between ${p.isArchived ? 'border-slate-700 opacity-60' : 'border-white/10 hover:border-refiniti-cyan/30'}`}>
+                          <div key={p.id} onClick={() => { setSelectedProjectId(p.id); setViewLevel('project-board'); }} className={`bg-slate-900/40 border p-5 rounded-xl hover:bg-white/5 cursor-pointer transition-all relative overflow-hidden group min-h-[180px] h-full flex flex-col justify-between ${p.isArchived ? 'border-slate-700 opacity-60' : 'border-white/10 hover:border-sadaya-gold/30'}`}>
                               {p.isArchived && <div className="absolute top-2 right-2 text-xs text-slate-500 border border-slate-700 px-2 py-0.5 rounded">ARCHIVED</div>}
                               <div><div className="flex justify-between items-start mb-3"><h4 className="text-white font-bold font-headline w-3/4 truncate">{p.title}</h4><div className="flex items-center gap-2">{!p.isArchived && <div className={`w-2 h-2 rounded-full ${p.status === 'Active' ? 'bg-green-400 shadow-[0_0_8px_#4ade80]' : 'bg-slate-500'}`}></div>}<button onClick={(e) => { e.stopPropagation(); setEditingProject(p); }} className="text-slate-500 hover:text-white p-1 rounded hover:bg-white/10" title="Edit Project Details"><Edit className="w-3 h-3"/></button></div></div><p className="text-sm text-slate-400 mb-4 line-clamp-2 font-body font-light">{p.description}</p></div>
-                              <div><div className="mb-3"><div className="flex justify-between text-xs text-slate-500 mb-1"><span>Progress ({dynamicProgress}%)</span><span>{dynamicProgress}%</span></div><div className="h-1.5 bg-black/50 rounded-full overflow-hidden"><div className="h-full bg-refiniti-cyan rounded-full transition-all duration-1000" style={{ width: `${dynamicProgress}%` }}></div></div></div><div className="flex justify-between items-center text-xs text-slate-500"><div className="flex -space-x-2">{p.members.map((m, i) => (<div key={i} className="w-6 h-6 rounded-full bg-slate-700 border border-black flex items-center justify-center text-white text-[9px] font-bold">{m.charAt(0)}</div>))}</div><div className={`flex items-center bg-white/5 px-2 py-1 rounded ${getDueDateColor(p.dueDate)}`}><Clock className="w-3 h-3 mr-1"/> {p.dueDate}</div></div></div>
+                              <div><div className="mb-3"><div className="flex justify-between text-xs text-slate-500 mb-1"><span>Progress ({dynamicProgress}%)</span><span>{dynamicProgress}%</span></div><div className="h-1.5 bg-black/50 rounded-full overflow-hidden"><div className="h-full bg-sadaya-gold rounded-full transition-all duration-1000" style={{ width: `${dynamicProgress}%` }}></div></div></div><div className="flex justify-between items-center text-xs text-slate-500"><div className="flex -space-x-2">{p.members.map((m, i) => (<div key={i} className="w-6 h-6 rounded-full bg-slate-700 border border-black flex items-center justify-center text-white text-[9px] font-bold">{m.charAt(0)}</div>))}</div><div className={`flex items-center bg-white/5 px-2 py-1 rounded ${getDueDateColor(p.dueDate)}`}><Clock className="w-3 h-3 mr-1"/> {p.dueDate}</div></div></div>
                           </div>
                           );
                       })}
@@ -983,15 +993,15 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                            </div>
                            <div className="p-6 space-y-4 overflow-y-auto custom-scrollbar">
                                {isTaskGenerating ? (
-                                   <div className="flex flex-col items-center justify-center py-12"><Sparkles className="w-12 h-12 text-refiniti-cyan animate-spin mb-4"/><p className="text-white font-bold">Varia is formulating the project plan...</p><p className="text-slate-400 text-sm">Generating tasks, assigning priorities, and setting deadlines.</p></div>
+                                   <div className="flex flex-col items-center justify-center py-12"><Sparkles className="w-12 h-12 text-sadaya-gold animate-spin mb-4"/><p className="text-white font-bold">Varia is formulating the project plan...</p><p className="text-slate-400 text-sm">Generating tasks, assigning priorities, and setting deadlines.</p></div>
                                ) : (
                                    <>
-                                       <div><label className="text-xs text-slate-400 uppercase font-bold">Project Title</label><input value={newProjectForm.title} onChange={e => setNewProjectForm({...newProjectForm, title: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded p-2 text-white mt-1 focus:border-refiniti-cyan outline-none"/></div>
-                                       <div><label className="text-xs text-slate-400 uppercase font-bold">Description</label><textarea value={newProjectForm.description} onChange={e => setNewProjectForm({...newProjectForm, description: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded p-2 text-white mt-1 h-20 resize-none focus:border-refiniti-cyan outline-none"/></div>
+                                       <div><label className="text-xs text-slate-400 uppercase font-bold">Project Title</label><input value={newProjectForm.title} onChange={e => setNewProjectForm({...newProjectForm, title: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded p-2 text-white mt-1 focus:border-sadaya-gold outline-none"/></div>
+                                       <div><label className="text-xs text-slate-400 uppercase font-bold">Description</label><textarea value={newProjectForm.description} onChange={e => setNewProjectForm({...newProjectForm, description: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded p-2 text-white mt-1 h-20 resize-none focus:border-sadaya-gold outline-none"/></div>
                                        <div className="grid grid-cols-2 gap-4">
                                            <div>
                                                <label className="text-xs text-slate-400 uppercase font-bold">Due Date</label>
-                                               <input type="date" value={newProjectForm.dueDate} onChange={e => setNewProjectForm({...newProjectForm, dueDate: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded p-2 text-white mt-1 focus:border-refiniti-cyan outline-none"/>
+                                               <input type="date" value={newProjectForm.dueDate} onChange={e => setNewProjectForm({...newProjectForm, dueDate: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded p-2 text-white mt-1 focus:border-sadaya-gold outline-none"/>
                                            </div>
                                            <div>
                                                <label className="text-xs text-slate-400 uppercase font-bold">Project Team</label>
@@ -1004,7 +1014,7 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                                                                const exists = newProjectForm.members.includes(m.name); 
                                                                setNewProjectForm({ ...newProjectForm, members: exists ? newProjectForm.members.filter(n => n !== m.name) : [...newProjectForm.members, m.name] }); 
                                                            }} 
-                                                           className={`text-xs px-2 py-1 rounded border ${newProjectForm.members.includes(m.name) ? 'bg-refiniti-cyan text-black border-refiniti-cyan' : 'border-slate-600 text-slate-400'}`}
+                                                           className={`text-xs px-2 py-1 rounded border ${newProjectForm.members.includes(m.name) ? 'bg-sadaya-gold text-black border-sadaya-gold' : 'border-slate-600 text-slate-400'}`}
                                                        >
                                                            {m.name}
                                                        </button>
@@ -1025,12 +1035,12 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                                                </div>
                                            </div>
                                        </div>
-                                       <div className="pt-4 border-t border-white/10"><div className="flex items-center gap-2 mb-2"><Sparkles className="w-4 h-4 text-refiniti-cyan"/><label className="text-xs text-refiniti-cyan uppercase font-bold">Varia Strategy (AI Auto-Task Generation)</label></div><textarea value={newProjectForm.strategy} onChange={e => setNewProjectForm({...newProjectForm, strategy: e.target.value})} placeholder="Describe the project strategy here. Varia will automatically generate tasks, checklists, and timelines based on this input..." className="w-full bg-refiniti-blue/10 border border-refiniti-cyan/30 rounded p-3 text-white h-32 text-sm focus:border-refiniti-cyan outline-none"/></div>
+                                       <div className="pt-4 border-t border-white/10"><div className="flex items-center gap-2 mb-2"><Sparkles className="w-4 h-4 text-sadaya-gold"/><label className="text-xs text-sadaya-gold uppercase font-bold">Varia Strategy (AI Auto-Task Generation)</label></div><textarea value={newProjectForm.strategy} onChange={e => setNewProjectForm({...newProjectForm, strategy: e.target.value})} placeholder="Describe the project strategy here. Varia will automatically generate tasks, checklists, and timelines based on this input..." className="w-full bg-sadaya-tan/10 border border-sadaya-gold/30 rounded p-3 text-white h-32 text-sm focus:border-sadaya-gold outline-none"/></div>
                                    </>
                                )}
                            </div>
                            {!isTaskGenerating && (
-                               <div className="p-6 border-t border-white/10 bg-black/20 flex justify-end gap-3"><button onClick={() => setIsProjectModalOpen(false)} className="px-4 py-2 text-slate-400 hover:text-white text-sm">Cancel</button><button onClick={handleCreateProject} className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white transition-colors text-sm flex items-center shadow-[0_0_15px_rgba(6,182,212,0.4)]">{newProjectForm.strategy ? <><Sparkles className="w-4 h-4 mr-2"/> Initiate Varia Project</> : 'Create Project'}</button></div>
+                               <div className="p-6 border-t border-white/10 bg-black/20 flex justify-end gap-3"><button onClick={() => setIsProjectModalOpen(false)} className="px-4 py-2 text-slate-400 hover:text-white text-sm">Cancel</button><button onClick={handleCreateProject} className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white transition-colors text-sm flex items-center shadow-[0_0_15px_rgba(6,182,212,0.4)]">{newProjectForm.strategy ? <><Sparkles className="w-4 h-4 mr-2"/> Initiate Varia Project</> : 'Create Project'}</button></div>
                            )}
                       </div>
                   </div>
@@ -1039,8 +1049,8 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                   <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
                       <div className="w-full max-w-lg bg-[#0f172a] border border-white/10 rounded-2xl shadow-2xl flex flex-col animate-in zoom-in-95 duration-200">
                           <div className="p-6 border-b border-white/10 flex justify-between items-center bg-black/20"><div><h2 className="text-xl font-headline text-white font-bold">Manage Organization Team</h2><p className="text-xs text-slate-400">Assign employees to {activeOrg.name}</p></div><button onClick={() => setIsManageTeamOpen(false)}><X className="w-6 h-6 text-slate-500 hover:text-white"/></button></div>
-                          <div className="p-6 overflow-y-auto max-h-[60vh] space-y-2">{teamMembers.map(emp => { const isAssigned = activeOrg.assignedEmployees?.includes(emp.id); return (<div key={emp.id} onClick={() => toggleOrgEmployee(emp.id)} className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${isAssigned ? 'bg-refiniti-cyan/10 border-refiniti-cyan text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'}`}><div className="flex items-center gap-3"><div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold">{emp.name.charAt(0)}</div><div><div className="font-bold text-sm">{emp.name}</div><div className="text-xs opacity-70">{emp.role}</div></div></div>{isAssigned && <CheckCircle className="w-5 h-5 text-refiniti-cyan"/>}</div>); })}</div>
-                          <div className="p-6 border-t border-white/10 bg-black/20 text-right"><button onClick={() => setIsManageTeamOpen(false)} className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white transition-colors text-sm">Done</button></div>
+                          <div className="p-6 overflow-y-auto max-h-[60vh] space-y-2">{teamMembers.map(emp => { const isAssigned = activeOrg.assignedEmployees?.includes(emp.id); return (<div key={emp.id} onClick={() => toggleOrgEmployee(emp.id)} className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${isAssigned ? 'bg-sadaya-gold/10 border-sadaya-gold text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'}`}><div className="flex items-center gap-3"><div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold">{emp.name.charAt(0)}</div><div><div className="font-bold text-sm">{emp.name}</div><div className="text-xs opacity-70">{emp.role}</div></div></div>{isAssigned && <CheckCircle className="w-5 h-5 text-sadaya-gold"/>}</div>); })}</div>
+                          <div className="p-6 border-t border-white/10 bg-black/20 text-right"><button onClick={() => setIsManageTeamOpen(false)} className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white transition-colors text-sm">Done</button></div>
                       </div>
                   </div>
               )}
@@ -1056,7 +1066,7 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                                <div className="grid grid-cols-2 gap-4"><div><label className="text-xs text-slate-400 uppercase font-bold">Due Date</label><input type="date" value={editingProject.dueDate} onChange={e => setEditingProject({...editingProject, dueDate: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded p-2 text-white mt-1"/></div><div><label className="text-xs text-slate-400 uppercase font-bold">Status</label><select value={editingProject.status} onChange={e => setEditingProject({...editingProject, status: e.target.value as any})} className="w-full bg-[#0f172a] border border-white/10 rounded p-2 text-white mt-1"><option value="Active">Active</option><option value="On Hold">On Hold</option><option value="Completed">Completed</option></select></div></div>
                                <div className="pt-4 border-t border-white/10 flex flex-wrap justify-between items-center gap-2"><div className="flex gap-2 w-full md:w-auto"><button onClick={() => setEditingProject({...editingProject, isArchived: !editingProject.isArchived})} className={`flex-1 md:flex-none px-3 py-1 text-sm rounded border ${editingProject.isArchived ? 'bg-orange-500/20 text-orange-400 border-orange-500/50' : 'bg-white/5 text-slate-400 border-white/10'}`}>{editingProject.isArchived ? 'Unarchive Project' : 'Archive Project'}</button><button onClick={(e) => deleteProject(editingProject.id, e)} className="flex-1 md:flex-none px-3 py-1 text-sm rounded border border-red-500/20 bg-red-500/10 text-red-400 hover:bg-red-500/20">Delete Project</button></div></div>
                            </div>
-                           <div className="p-6 border-t border-white/10 bg-black/20 flex justify-end gap-3"><button onClick={() => setEditingProject(null)} className="px-4 py-2 text-slate-400 hover:text-white text-sm">Cancel</button><button onClick={() => handleUpdateProject(editingProject)} className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white transition-colors text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)]">Save Changes</button></div>
+                           <div className="p-6 border-t border-white/10 bg-black/20 flex justify-end gap-3"><button onClick={() => setEditingProject(null)} className="px-4 py-2 text-slate-400 hover:text-white text-sm">Cancel</button><button onClick={() => handleUpdateProject(editingProject)} className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white transition-colors text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)]">Save Changes</button></div>
                       </div>
                   </div>
               )}
@@ -1105,8 +1115,8 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                           {visibleOrganizations.length}
                       </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-refiniti-cyan/10 flex items-center justify-center border border-refiniti-cyan/20">
-                      <Building className="w-5 h-5 text-refiniti-cyan"/>
+                  <div className="w-10 h-10 rounded-full bg-sadaya-gold/10 flex items-center justify-center border border-sadaya-gold/20">
+                      <Building className="w-5 h-5 text-sadaya-gold"/>
                   </div>
               </div>
           </div>
@@ -1118,11 +1128,11 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
                       <div 
                           key={org.id} 
                           onClick={(e) => handleOrgClick(org.id)}
-                          className="glass-panel p-6 rounded-2xl hover:bg-white/5 cursor-pointer transition-all group border-t-4 border-t-transparent hover:border-t-refiniti-cyan relative overflow-hidden"
+                          className="glass-panel p-6 rounded-2xl hover:bg-white/5 cursor-pointer transition-all group border-t-4 border-t-transparent hover:border-t-sadaya-gold relative overflow-hidden"
                       >
                           <div className="flex items-center justify-between mb-6">
                               <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
-                                  <Building className="w-6 h-6 text-refiniti-cyan group-hover:scale-110 transition-transform"/>
+                                  <Building className="w-6 h-6 text-sadaya-gold group-hover:scale-110 transition-transform"/>
                               </div>
                               <span className={`text-xs px-2 py-1 rounded-full border ${org.status === 'Active' ? 'text-green-400 border-green-500/30 bg-green-500/10' : 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10'}`}>
                                   {org.status}

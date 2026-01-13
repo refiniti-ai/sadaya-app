@@ -42,7 +42,7 @@ export const SupportBot: React.FC = () => {
             {!isOpen && (
                 <button 
                     onClick={() => setIsOpen(true)}
-                    className="w-14 h-14 bg-gradient-to-r from-refiniti-cyan to-refiniti-blue rounded-full shadow-[0_0_20px_rgba(6,182,212,0.6)] flex items-center justify-center text-white hover:scale-110 transition-transform"
+                    className="w-14 h-14 bg-gradient-to-r from-sadaya-gold to-sadaya-tan rounded-full shadow-[0_0_20px_rgba(6,182,212,0.6)] flex items-center justify-center text-white hover:scale-110 transition-transform"
                 >
                     <MessageSquare className="w-6 h-6" />
                 </button>
@@ -50,7 +50,7 @@ export const SupportBot: React.FC = () => {
 
             {isOpen && (
                 <div className="w-[350px] h-[500px] glass-panel rounded-2xl flex flex-col overflow-hidden shadow-2xl animate-in slide-in-from-bottom-5 fade-in duration-300">
-                    <div className="p-4 bg-gradient-to-r from-refiniti-cyan/20 to-refiniti-blue/20 border-b border-white/10 flex justify-between items-center">
+                    <div className="p-4 bg-gradient-to-r from-sadaya-gold/20 to-sadaya-tan/20 border-b border-white/10 flex justify-between items-center">
                         <div className="flex items-center">
                             <div className="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></div>
                             <span className="font-display font-bold text-white">VARIA SUPPORT</span>
@@ -63,7 +63,7 @@ export const SupportBot: React.FC = () => {
                             <div key={idx} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`max-w-[80%] p-3 rounded-lg text-sm ${
                                     m.sender === 'user' 
-                                    ? 'bg-refiniti-blue text-white rounded-br-none' 
+                                    ? 'bg-sadaya-tan text-white rounded-br-none' 
                                     : 'bg-white/10 text-slate-200 rounded-bl-none border border-white/5'
                                 }`}>
                                     {m.text}
@@ -85,7 +85,7 @@ export const SupportBot: React.FC = () => {
                         <div className="relative">
                             <input 
                                 type="text"
-                                className="w-full bg-slate-800 border border-slate-600 rounded-full pl-4 pr-10 py-2 text-sm text-white focus:border-refiniti-cyan focus:outline-none"
+                                className="w-full bg-slate-800 border border-slate-600 rounded-full pl-4 pr-10 py-2 text-sm text-white focus:border-sadaya-gold focus:outline-none"
                                 placeholder="Ask Varia..."
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
@@ -93,7 +93,7 @@ export const SupportBot: React.FC = () => {
                             />
                             <button 
                                 onClick={handleSend}
-                                className="absolute right-2 top-1.5 p-1 bg-refiniti-cyan rounded-full text-black hover:bg-white transition-colors"
+                                className="absolute right-2 top-1.5 p-1 bg-sadaya-gold rounded-full text-black hover:bg-white transition-colors"
                             >
                                 <Send className="w-3 h-3" />
                             </button>

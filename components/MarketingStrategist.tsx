@@ -190,13 +190,13 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                     </div>
                     <div className="space-y-6">
                         <div>
-                            <h4 className="text-xs text-refiniti-cyan font-bold uppercase mb-2">Notes</h4>
+                            <h4 className="text-xs text-sadaya-gold font-bold uppercase mb-2">Notes</h4>
                             <div className="p-3 bg-white/5 rounded-lg text-sm text-slate-300 italic border border-white/5">
                                 {activeProposal.customDetails || "No notes available."}
                             </div>
                         </div>
                         <div>
-                            <h4 className="text-xs text-refiniti-cyan font-bold uppercase mb-2">Services Sold</h4>
+                            <h4 className="text-xs text-sadaya-gold font-bold uppercase mb-2">Services Sold</h4>
                             <div className="flex flex-wrap gap-2">
                                 {activeProposal.services.map((s, i) => (
                                     <span key={i} className="px-2 py-1 bg-white/5 border border-white/10 rounded text-xs text-slate-300">{s}</span>
@@ -216,10 +216,10 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                             <div 
                                 key={org.id} 
                                 onClick={() => { setSelectedOrgId(org.id); setView('DASHBOARD'); }}
-                                className="group p-6 glass-panel rounded-2xl cursor-pointer hover:border-refiniti-cyan/50 transition-all hover:-translate-y-1"
+                                className="group p-6 glass-panel rounded-2xl cursor-pointer hover:border-sadaya-gold/50 transition-all hover:-translate-y-1"
                             >
                                 <div className="flex items-center justify-between mb-4">
-                                    <Briefcase className="w-8 h-8 text-slate-500 group-hover:text-refiniti-cyan transition-colors"/>
+                                    <Briefcase className="w-8 h-8 text-slate-500 group-hover:text-sadaya-gold transition-colors"/>
                                     <span className="bg-white/5 px-2 py-1 rounded text-xs text-slate-400">{org.industry}</span>
                                 </div>
                                 <h3 className="text-xl font-bold font-headline">{org.name}</h3>
@@ -242,7 +242,7 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                     </div>
 
                     <div className="space-y-4">
-                        <h3 className="text-sm font-bold text-refiniti-cyan uppercase tracking-widest">Active Proposals</h3>
+                        <h3 className="text-sm font-bold text-sadaya-gold uppercase tracking-widest">Active Proposals</h3>
                         {orgProposals.length === 0 ? (
                             <div className="p-8 border border-dashed border-white/10 rounded-xl text-center text-slate-500">No proposals found. Create one in the Proposal Builder.</div>
                         ) : (
@@ -275,7 +275,7 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                                                         setActiveProposalId(prop.id); 
                                                         setView('INTAKE_DYNAMIC'); 
                                                     }}
-                                                    className={`px-4 py-2 rounded-lg text-sm font-bold flex items-center ${isPaid ? 'bg-refiniti-cyan text-black hover:bg-white' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
+                                                    className={`px-4 py-2 rounded-lg text-sm font-bold flex items-center ${isPaid ? 'bg-sadaya-gold text-black hover:bg-white' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
                                                 >
                                                     {isPaid ? <><Sparkles className="w-4 h-4 mr-2"/> Initialize Strategy</> : <><Lock className="w-4 h-4 mr-2"/> Initialize Locked</>}
                                                 </button>
@@ -299,8 +299,8 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                             const isActive = stepMap[i] === view;
                             const isPast = stepMap.indexOf(view) > i;
                             return (
-                                <div key={step} className={`flex items-center gap-2 ${isActive ? 'text-refiniti-cyan' : isPast ? 'text-green-400' : 'text-slate-600'}`}>
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border text-sm font-bold ${isActive ? 'border-refiniti-cyan bg-refiniti-cyan/10' : isPast ? 'border-green-400 bg-green-400/10' : 'border-slate-700 bg-slate-800'}`}>
+                                <div key={step} className={`flex items-center gap-2 ${isActive ? 'text-sadaya-gold' : isPast ? 'text-green-400' : 'text-slate-600'}`}>
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border text-sm font-bold ${isActive ? 'border-sadaya-gold bg-sadaya-gold/10' : isPast ? 'border-green-400 bg-green-400/10' : 'border-slate-700 bg-slate-800'}`}>
                                         {isPast ? <CheckCircle className="w-4 h-4"/> : i + 1}
                                     </div>
                                     <span className="hidden md:block text-sm font-bold uppercase">{step}</span>
@@ -316,7 +316,7 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                                 {view === 'INTAKE_ASSETS' && 'Brand Assets'}
                                 {view === 'INTAKE_CREDS' && 'Access Credentials'}
                             </h2>
-                            <button onClick={() => setShowContext(!showContext)} className="text-xs text-refiniti-cyan hover:underline flex items-center border border-refiniti-cyan/20 px-3 py-1.5 rounded bg-refiniti-cyan/5">
+                            <button onClick={() => setShowContext(!showContext)} className="text-xs text-sadaya-gold hover:underline flex items-center border border-sadaya-gold/20 px-3 py-1.5 rounded bg-sadaya-gold/5">
                                 <Eye className="w-3 h-3 mr-2"/> Sales Notes
                             </button>
                         </div>
@@ -328,7 +328,7 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                                         <div key={q.id}>
                                             <label className="text-sm text-slate-300 font-bold block mb-2">{q.label}</label>
                                             <textarea 
-                                                className="w-full bg-black/40 border border-white/10 rounded p-3 text-white focus:border-refiniti-cyan outline-none min-h-[100px]"
+                                                className="w-full bg-black/40 border border-white/10 rounded p-3 text-white focus:border-sadaya-gold outline-none min-h-[100px]"
                                                 value={dynamicAnswers[q.id] || ''}
                                                 onChange={(e) => setDynamicAnswers({...dynamicAnswers, [q.id]: e.target.value})}
                                             />
@@ -340,14 +340,14 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                             {view === 'INTAKE_ASSETS' && (
                                 <>
                                     <div className="flex items-center gap-3 p-4 bg-white/5 rounded-lg border border-white/10">
-                                        <div className={`w-10 h-6 rounded-full p-1 cursor-pointer transition-colors ${assetsForm.rebranding ? 'bg-refiniti-cyan' : 'bg-slate-700'}`} onClick={() => setAssetsForm({...assetsForm, rebranding: !assetsForm.rebranding})}>
+                                        <div className={`w-10 h-6 rounded-full p-1 cursor-pointer transition-colors ${assetsForm.rebranding ? 'bg-sadaya-gold' : 'bg-slate-700'}`} onClick={() => setAssetsForm({...assetsForm, rebranding: !assetsForm.rebranding})}>
                                             <div className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${assetsForm.rebranding ? 'translate-x-4' : ''}`}></div>
                                         </div>
                                         <span className="text-sm font-bold text-white">Require Full Rebranding?</span>
                                     </div>
 
                                     {!assetsForm.rebranding ? (
-                                        <div className="p-6 border-2 border-dashed border-white/20 rounded-xl text-center hover:border-refiniti-cyan/50 hover:bg-white/5 transition-all">
+                                        <div className="p-6 border-2 border-dashed border-white/20 rounded-xl text-center hover:border-sadaya-gold/50 hover:bg-white/5 transition-all">
                                             <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2"/>
                                             <p className="text-sm text-slate-300">Upload Current Logo (SVG/PNG)</p>
                                             <input type="file" className="hidden" />
@@ -380,7 +380,7 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                                     <div>
                                         <label className="text-sm text-slate-300 font-bold block mb-2">Font Style Preference</label>
                                         <select 
-                                            className="w-full bg-[#0f172a] border border-white/10 rounded p-3 text-white focus:border-refiniti-cyan outline-none"
+                                            className="w-full bg-[#0f172a] border border-white/10 rounded p-3 text-white focus:border-sadaya-gold outline-none"
                                             value={assetsForm.fontStyle}
                                             onChange={(e) => setAssetsForm({...assetsForm, fontStyle: e.target.value})}
                                         >
@@ -397,13 +397,13 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                                     <div className="space-y-3">
                                         {logins.map((l, i) => (
                                             <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2 bg-black/20 p-2 rounded">
-                                                <input placeholder="Platform" value={l.platform} onChange={e => { const n = [...logins]; n[i].platform = e.target.value; setLogins(n); }} className="bg-transparent border-b border-white/10 text-xs p-2 text-white outline-none focus:border-refiniti-cyan"/>
-                                                <input placeholder="URL" value={l.url} onChange={e => { const n = [...logins]; n[i].url = e.target.value; setLogins(n); }} className="bg-transparent border-b border-white/10 text-xs p-2 text-white outline-none focus:border-refiniti-cyan"/>
-                                                <input placeholder="User" value={l.username} onChange={e => { const n = [...logins]; n[i].username = e.target.value; setLogins(n); }} className="bg-transparent border-b border-white/10 text-xs p-2 text-white outline-none focus:border-refiniti-cyan"/>
-                                                <input placeholder="Pass" type="password" value={l.password} onChange={e => { const n = [...logins]; n[i].password = e.target.value; setLogins(n); }} className="bg-transparent border-b border-white/10 text-xs p-2 text-white outline-none focus:border-refiniti-cyan"/>
+                                                <input placeholder="Platform" value={l.platform} onChange={e => { const n = [...logins]; n[i].platform = e.target.value; setLogins(n); }} className="bg-transparent border-b border-white/10 text-xs p-2 text-white outline-none focus:border-sadaya-gold"/>
+                                                <input placeholder="URL" value={l.url} onChange={e => { const n = [...logins]; n[i].url = e.target.value; setLogins(n); }} className="bg-transparent border-b border-white/10 text-xs p-2 text-white outline-none focus:border-sadaya-gold"/>
+                                                <input placeholder="User" value={l.username} onChange={e => { const n = [...logins]; n[i].username = e.target.value; setLogins(n); }} className="bg-transparent border-b border-white/10 text-xs p-2 text-white outline-none focus:border-sadaya-gold"/>
+                                                <input placeholder="Pass" type="password" value={l.password} onChange={e => { const n = [...logins]; n[i].password = e.target.value; setLogins(n); }} className="bg-transparent border-b border-white/10 text-xs p-2 text-white outline-none focus:border-sadaya-gold"/>
                                             </div>
                                         ))}
-                                        <button onClick={() => setLogins([...logins, { platform: '', url: '', username: '', password: '' }])} className="text-xs text-refiniti-cyan hover:underline">+ Add Row</button>
+                                        <button onClick={() => setLogins([...logins, { platform: '', url: '', username: '', password: '' }])} className="text-xs text-sadaya-gold hover:underline">+ Add Row</button>
                                     </div>
                                 </>
                             )}
@@ -450,7 +450,7 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                                 <button 
                                     key={tab.id}
                                     onClick={() => setHubTab(tab.id as any)}
-                                    className={`w-full flex items-center px-4 py-3 rounded-lg text-sm font-bold transition-all ${hubTab === tab.id ? 'bg-refiniti-cyan text-black shadow-lg' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                                    className={`w-full flex items-center px-4 py-3 rounded-lg text-sm font-bold transition-all ${hubTab === tab.id ? 'bg-sadaya-gold text-black shadow-lg' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                                 >
                                     <tab.icon className="w-4 h-4 mr-3"/> {tab.label}
                                 </button>
@@ -475,7 +475,7 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                                         {currentUser?.role === UserRole.CLIENT && activeProposal.marketingData.status === StrategyStatus.APPROVED && (
                                             <>
                                                 <button onClick={() => setShowRejectModal(true)} className="px-4 py-2 border border-red-500/50 text-red-400 hover:bg-red-500/10 rounded-lg text-sm font-bold">Request Changes</button>
-                                                <button onClick={handleClientAcceptance} className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded-lg hover:bg-white transition-colors text-sm shadow-lg">Accept Strategy</button>
+                                                <button onClick={handleClientAcceptance} className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded-lg hover:bg-white transition-colors text-sm shadow-lg">Accept Strategy</button>
                                             </>
                                         )}
                                     </div>
@@ -502,10 +502,10 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                                         {activeProposal.marketingData.content && (
                                             <>
                                                 <div>
-                                                    <h4 className="text-refiniti-cyan font-bold uppercase text-sm mb-2">Executive Summary</h4>
+                                                    <h4 className="text-sadaya-gold font-bold uppercase text-sm mb-2">Executive Summary</h4>
                                                     {canEdit ? (
                                                         <textarea 
-                                                            className="w-full bg-black/40 border border-white/10 rounded p-4 text-white min-h-[150px] outline-none focus:border-refiniti-cyan"
+                                                            className="w-full bg-black/40 border border-white/10 rounded p-4 text-white min-h-[150px] outline-none focus:border-sadaya-gold"
                                                             value={activeProposal.marketingData.content.executiveSummary}
                                                             onChange={(e) => handleAdminSaveEdits({...activeProposal.marketingData!.content!, executiveSummary: e.target.value})}
                                                         />
@@ -515,11 +515,11 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                                                 </div>
                                                 <div className="grid grid-cols-2 gap-8">
                                                     <div>
-                                                        <h4 className="text-refiniti-cyan font-bold uppercase text-sm mb-2">Target Audience</h4>
+                                                        <h4 className="text-sadaya-gold font-bold uppercase text-sm mb-2">Target Audience</h4>
                                                         <p className="text-sm border border-white/5 p-4 rounded-lg bg-black/20">{activeProposal.marketingData.content.targetAudience}</p>
                                                     </div>
                                                     <div>
-                                                        <h4 className="text-refiniti-cyan font-bold uppercase text-sm mb-2">Brand Voice</h4>
+                                                        <h4 className="text-sadaya-gold font-bold uppercase text-sm mb-2">Brand Voice</h4>
                                                         <p className="text-sm border border-white/5 p-4 rounded-lg bg-black/20">{activeProposal.marketingData.content.brandVoice}</p>
                                                     </div>
                                                 </div>
@@ -549,7 +549,7 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                                     <div className="col-span-1 glass-panel p-6 rounded-xl text-center">
                                         <h4 className="text-slate-400 text-xs font-bold uppercase mb-4">Typography</h4>
                                         <div className="text-3xl font-display text-white mb-2">Aa</div>
-                                        <div className="text-sm text-refiniti-cyan font-bold">{activeProposal.marketingData.assets.find(a => a.type === 'font')?.value || 'Sans-Serif'}</div>
+                                        <div className="text-sm text-sadaya-gold font-bold">{activeProposal.marketingData.assets.find(a => a.type === 'font')?.value || 'Sans-Serif'}</div>
                                     </div>
                                     <div className="col-span-1 glass-panel p-6 rounded-xl text-center flex flex-col items-center justify-center">
                                         <h4 className="text-slate-400 text-xs font-bold uppercase mb-4">Rebranding Status</h4>
@@ -604,14 +604,14 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
                         <h3 className="text-xl font-bold text-white mb-4">Request Changes</h3>
                         <p className="text-sm text-slate-400 mb-4">Please detail what needs to be adjusted in the strategy document.</p>
                         <textarea 
-                            className="w-full bg-black/40 border border-white/10 rounded p-3 text-white h-32 focus:border-refiniti-cyan outline-none mb-4"
+                            className="w-full bg-black/40 border border-white/10 rounded p-3 text-white h-32 focus:border-sadaya-gold outline-none mb-4"
                             placeholder="Enter your feedback here..."
                             value={modificationNote}
                             onChange={(e) => setModificationNote(e.target.value)}
                         />
                         <div className="flex justify-end gap-3">
                             <button onClick={() => setShowRejectModal(false)} className="px-4 py-2 text-slate-400 hover:text-white text-sm">Cancel</button>
-                            <button onClick={handleRequestModification} className="px-4 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white transition-colors text-sm">Submit Request</button>
+                            <button onClick={handleRequestModification} className="px-4 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white transition-colors text-sm">Submit Request</button>
                         </div>
                     </div>
                 </div>
@@ -619,7 +619,7 @@ export const MarketingStrategist: React.FC<MarketingStrategistProps> = ({
 
             <style>{`
                 .btn-primary {
-                    @apply px-6 py-3 bg-gradient-to-r from-refiniti-cyan to-refiniti-blue text-white font-bold rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:scale-105 transition-transform;
+                    @apply px-6 py-3 bg-gradient-to-r from-sadaya-gold to-sadaya-tan text-white font-bold rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:scale-105 transition-transform;
                 }
             `}</style>
         </div>

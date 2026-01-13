@@ -134,13 +134,13 @@ export const SupportCenter: React.FC<SupportCenterProps> = ({ tickets, setTicket
                     </div>
                     <div className="flex items-center gap-3">
                         <div className="flex bg-black/40 rounded-lg p-1 border border-white/10">
-                            <button onClick={() => setFilter('Active')} className={`px-4 py-2 rounded-md text-sm font-headline transition-all ${filter === 'Active' ? 'bg-refiniti-cyan text-black font-bold' : 'text-slate-400 hover:text-white'}`}>Active</button>
-                            <button onClick={() => setFilter('Archived')} className={`px-4 py-2 rounded-md text-sm font-headline transition-all ${filter === 'Archived' ? 'bg-refiniti-cyan text-black font-bold' : 'text-slate-400 hover:text-white'}`}>Archived</button>
+                            <button onClick={() => setFilter('Active')} className={`px-4 py-2 rounded-md text-sm font-headline transition-all ${filter === 'Active' ? 'bg-sadaya-gold text-black font-bold' : 'text-slate-400 hover:text-white'}`}>Active</button>
+                            <button onClick={() => setFilter('Archived')} className={`px-4 py-2 rounded-md text-sm font-headline transition-all ${filter === 'Archived' ? 'bg-sadaya-gold text-black font-bold' : 'text-slate-400 hover:text-white'}`}>Archived</button>
                         </div>
                         {currentUser.role === UserRole.CLIENT && (
                             <button 
                                 onClick={() => setIsNewTicketOpen(true)}
-                                className="bg-white text-black px-6 py-3 rounded-lg font-headline font-medium hover:bg-refiniti-cyan transition-colors flex items-center shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                                className="bg-white text-black px-6 py-3 rounded-lg font-headline font-medium hover:bg-sadaya-gold transition-colors flex items-center shadow-[0_0_20px_rgba(255,255,255,0.1)]"
                             >
                                 <Plus className="w-5 h-5 mr-2"/> New Ticket
                             </button>
@@ -153,12 +153,12 @@ export const SupportCenter: React.FC<SupportCenterProps> = ({ tickets, setTicket
                         <div 
                             key={ticket.id} 
                             onClick={() => { setSelectedTicketId(ticket.id); setViewMode('detail'); }}
-                            className="glass-panel p-6 rounded-xl cursor-pointer hover:bg-white/5 transition-all group border border-white/10 hover:border-refiniti-cyan/30"
+                            className="glass-panel p-6 rounded-xl cursor-pointer hover:bg-white/5 transition-all group border border-white/10 hover:border-sadaya-gold/30"
                         >
                             <div className="flex justify-between items-start mb-2">
                                 <div className="flex items-center gap-3">
                                     <span className={`w-2 h-2 rounded-full ${ticket.status === 'Open' ? 'bg-green-500 shadow-[0_0_8px_#22c55e]' : ticket.status === 'Resolved' ? 'bg-slate-500' : 'bg-orange-500'}`}></span>
-                                    <h3 className="text-lg font-bold text-white font-headline group-hover:text-refiniti-cyan transition-colors">{ticket.subject}</h3>
+                                    <h3 className="text-lg font-bold text-white font-headline group-hover:text-sadaya-gold transition-colors">{ticket.subject}</h3>
                                     <span className="text-xs bg-white/5 border border-white/10 px-2 py-0.5 rounded text-slate-400 font-mono">{ticket.id}</span>
                                 </div>
                                 <span className={`text-xs px-2 py-1 rounded font-bold uppercase ${
@@ -208,7 +208,7 @@ export const SupportCenter: React.FC<SupportCenterProps> = ({ tickets, setTicket
                                     <input 
                                         value={newTicketForm.subject}
                                         onChange={(e) => setNewTicketForm({...newTicketForm, subject: e.target.value})}
-                                        className="w-full bg-white/5 border border-white/10 rounded p-3 text-white focus:border-refiniti-cyan outline-none"
+                                        className="w-full bg-white/5 border border-white/10 rounded p-3 text-white focus:border-sadaya-gold outline-none"
                                         placeholder="Brief summary of the issue..."
                                     />
                                 </div>
@@ -217,7 +217,7 @@ export const SupportCenter: React.FC<SupportCenterProps> = ({ tickets, setTicket
                                     <select 
                                         value={newTicketForm.priority}
                                         onChange={(e) => setNewTicketForm({...newTicketForm, priority: e.target.value as any})}
-                                        className="w-full bg-[#0f172a] border border-white/10 rounded p-3 text-white focus:border-refiniti-cyan outline-none"
+                                        className="w-full bg-[#0f172a] border border-white/10 rounded p-3 text-white focus:border-sadaya-gold outline-none"
                                     >
                                         <option value="Low">Low - General Inquiry</option>
                                         <option value="Medium">Medium - Feature Request / Minor Issue</option>
@@ -229,7 +229,7 @@ export const SupportCenter: React.FC<SupportCenterProps> = ({ tickets, setTicket
                                     <textarea 
                                         value={newTicketForm.description}
                                         onChange={(e) => setNewTicketForm({...newTicketForm, description: e.target.value})}
-                                        className="w-full bg-white/5 border border-white/10 rounded p-3 text-white h-32 focus:border-refiniti-cyan outline-none resize-none"
+                                        className="w-full bg-white/5 border border-white/10 rounded p-3 text-white h-32 focus:border-sadaya-gold outline-none resize-none"
                                         placeholder="Detailed explanation..."
                                     />
                                 </div>
@@ -238,7 +238,7 @@ export const SupportCenter: React.FC<SupportCenterProps> = ({ tickets, setTicket
                                 <button onClick={() => setIsNewTicketOpen(false)} className="px-4 py-2 text-slate-400 hover:text-white text-sm">Cancel</button>
                                 <button 
                                     onClick={handleCreateTicket}
-                                    className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white transition-colors text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+                                    className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white transition-colors text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)]"
                                 >
                                     Submit Ticket
                                 </button>
@@ -289,7 +289,7 @@ export const SupportCenter: React.FC<SupportCenterProps> = ({ tickets, setTicket
                                 </button>
                             </>
                         ) : (
-                            <button onClick={() => updateStatus('Open')} className="px-3 py-1.5 border border-refiniti-cyan/30 text-refiniti-cyan bg-refiniti-cyan/10 rounded text-xs font-bold hover:bg-refiniti-cyan/20 flex items-center">
+                            <button onClick={() => updateStatus('Open')} className="px-3 py-1.5 border border-sadaya-gold/30 text-sadaya-gold bg-sadaya-gold/10 rounded text-xs font-bold hover:bg-sadaya-gold/20 flex items-center">
                                 <RefreshCw className="w-3 h-3 mr-1.5"/> Restore to Open
                             </button>
                         )}
@@ -303,7 +303,7 @@ export const SupportCenter: React.FC<SupportCenterProps> = ({ tickets, setTicket
                             <div className={`max-w-[70%] ${msg.senderId === currentUser.id ? 'order-1' : 'order-2'}`}>
                                 <div className={`p-4 rounded-xl text-sm leading-relaxed ${
                                     msg.senderId === currentUser.id 
-                                    ? 'bg-refiniti-cyan/10 border border-refiniti-cyan/20 text-white rounded-tr-none' 
+                                    ? 'bg-sadaya-gold/10 border border-sadaya-gold/20 text-white rounded-tr-none' 
                                     : 'bg-white/10 border border-white/5 text-slate-200 rounded-tl-none'
                                 }`}>
                                     {msg.text}
@@ -331,12 +331,12 @@ export const SupportCenter: React.FC<SupportCenterProps> = ({ tickets, setTicket
                                         handleReply();
                                     }
                                 }}
-                                className="w-full bg-black/40 border border-slate-700 rounded-lg pl-4 pr-12 py-3 text-sm text-white focus:border-refiniti-cyan focus:outline-none resize-none h-14"
+                                className="w-full bg-black/40 border border-slate-700 rounded-lg pl-4 pr-12 py-3 text-sm text-white focus:border-sadaya-gold focus:outline-none resize-none h-14"
                                 placeholder="Type your reply..."
                             />
                             <button 
                                 onClick={handleReply}
-                                className="absolute right-3 top-3 text-slate-400 hover:text-refiniti-cyan transition-colors"
+                                className="absolute right-3 top-3 text-slate-400 hover:text-sadaya-gold transition-colors"
                             >
                                 <Send className="w-5 h-5"/>
                             </button>

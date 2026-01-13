@@ -13,7 +13,7 @@ interface InvoiceSystemProps {
 }
 
 // Mock clients for dropdown
-const MOCK_CLIENTS = ['Apex Innovations', 'Zenith Health', 'Vortex Logistics', 'Refiniti Internal'];
+const MOCK_CLIENTS = ['Executive Wellness Group', 'Holistic Life Path', 'Serenity Foundation', 'Sadaya Sanctuary Internal'];
 
 export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdateInvoices, currentUser }) => {
   const [viewMode, setViewMode] = useState<'list' | 'detail' | 'edit'>('list');
@@ -173,7 +173,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                       <button onClick={handleSaveDraft} className="px-4 py-2 border border-white/20 text-slate-300 rounded hover:bg-white/10 flex items-center text-sm font-headline">
                           <Save className="w-4 h-4 mr-2"/> Save as Draft
                       </button>
-                      <button onClick={handleApproveAndSend} className="px-4 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white transition-colors flex items-center text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)] font-headline">
+                      <button onClick={handleApproveAndSend} className="px-4 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white transition-colors flex items-center text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)] font-headline">
                           <Send className="w-4 h-4 mr-2"/> Approve & Send
                       </button>
                   </div>
@@ -194,7 +194,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                           <select 
                               value={formData.clientName} 
                               onChange={(e) => handleFormChange('clientName', e.target.value)}
-                              className="w-full bg-[#0f172a] border border-white/10 rounded p-2 text-white focus:border-refiniti-cyan outline-none"
+                              className="w-full bg-[#0f172a] border border-white/10 rounded p-2 text-white focus:border-sadaya-gold outline-none"
                           >
                               {MOCK_CLIENTS.map(c => <option key={c} value={c}>{c}</option>)}
                           </select>
@@ -205,7 +205,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                               <select 
                                   value={formData.terms} 
                                   onChange={(e) => handleFormChange('terms', e.target.value)}
-                                  className="w-full bg-[#0f172a] border border-white/10 rounded p-2 text-white focus:border-refiniti-cyan outline-none"
+                                  className="w-full bg-[#0f172a] border border-white/10 rounded p-2 text-white focus:border-sadaya-gold outline-none"
                               >
                                   <option value="Immediate">Immediate</option>
                                   <option value="Net 14">Net 14</option>
@@ -214,7 +214,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                           </div>
                           <div>
                               <label className="text-xs font-bold text-slate-500 uppercase block mb-2">Due Date</label>
-                              <div className="w-full bg-white/5 border border-white/10 rounded p-2 text-refiniti-cyan font-mono text-sm flex items-center">
+                              <div className="w-full bg-white/5 border border-white/10 rounded p-2 text-sadaya-gold font-mono text-sm flex items-center">
                                   <Calendar className="w-4 h-4 mr-2"/>
                                   {formData.dueDate}
                               </div>
@@ -225,7 +225,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                   <div className="mb-8">
                       <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                           <h3 className="font-headline font-bold text-white">Line Items</h3>
-                          <button onClick={addLineItem} className="text-xs text-refiniti-cyan hover:underline flex items-center">
+                          <button onClick={addLineItem} className="text-xs text-sadaya-gold hover:underline flex items-center">
                               <Plus className="w-3 h-3 mr-1"/> Add Item
                           </button>
                       </div>
@@ -237,7 +237,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                                           placeholder="Description"
                                           value={item.description}
                                           onChange={(e) => updateLineItem(idx, 'description', e.target.value)}
-                                          className="w-full bg-black/40 border border-white/10 rounded p-2 text-white text-sm focus:border-refiniti-cyan outline-none"
+                                          className="w-full bg-black/40 border border-white/10 rounded p-2 text-white text-sm focus:border-sadaya-gold outline-none"
                                       />
                                   </div>
                                   <div className="w-32">
@@ -246,7 +246,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                                           placeholder="Cost"
                                           value={item.cost}
                                           onChange={(e) => updateLineItem(idx, 'cost', Number(e.target.value))}
-                                          className="w-full bg-black/40 border border-white/10 rounded p-2 text-white text-sm text-right focus:border-refiniti-cyan outline-none"
+                                          className="w-full bg-black/40 border border-white/10 rounded p-2 text-white text-sm text-right focus:border-sadaya-gold outline-none"
                                       />
                                   </div>
                                   <button onClick={() => removeLineItem(idx)} className="text-slate-500 hover:text-red-400">
@@ -265,7 +265,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                           </div>
                           <div className="flex justify-between text-white font-bold text-xl">
                               <span>Total Due</span>
-                              <span className="text-refiniti-cyan">${calculateTotal().toLocaleString()}</span>
+                              <span className="text-sadaya-gold">${calculateTotal().toLocaleString()}</span>
                           </div>
                       </div>
                   </div>
@@ -286,7 +286,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
             {canEdit && (
                 <button 
                     onClick={handleCreateNew}
-                    className="bg-white text-black px-6 py-3 rounded-lg font-headline font-medium hover:bg-refiniti-cyan transition-colors flex items-center shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                    className="bg-white text-black px-6 py-3 rounded-lg font-headline font-medium hover:bg-sadaya-gold transition-colors flex items-center shadow-[0_0_20px_rgba(255,255,255,0.1)]"
                 >
                     <Plus className="w-5 h-5 mr-2"/> Create New Invoice
                 </button>
@@ -309,7 +309,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                 <tbody className="divide-y divide-white/5 text-sm font-body font-light">
                     {invoices.map(inv => (
                         <tr key={inv.id} className="hover:bg-white/5 transition-colors group cursor-pointer" onClick={() => setActiveInvoice(inv)}>
-                            <td className="p-6 font-headline text-refiniti-cyan">{inv.id}</td>
+                            <td className="p-6 font-headline text-sadaya-gold">{inv.id}</td>
                             <td className="p-6 text-white text-base">{inv.clientName}</td>
                             <td className="p-6 text-slate-400">{inv.type}</td>
                             <td className="p-6 text-white font-headline text-xl">${inv.amount.toLocaleString()}</td>
@@ -379,7 +379,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                     {canEdit && activeInvoice.status === 'Draft' ? (
                         <button 
                             onClick={() => handleEditDraft(activeInvoice)}
-                            className="px-5 py-2.5 bg-refiniti-cyan text-black rounded-lg hover:bg-white transition-colors flex items-center font-headline font-bold text-sm"
+                            className="px-5 py-2.5 bg-sadaya-gold text-black rounded-lg hover:bg-white transition-colors flex items-center font-headline font-bold text-sm"
                         >
                             <Edit2 className="w-4 h-4 mr-2"/> Edit Draft
                         </button>
@@ -407,27 +407,27 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                         <div className="glass-panel p-1 rounded-[24px] border border-white/10">
                             <div className="bg-[#080c14] rounded-[20px] p-10 relative overflow-hidden">
                                 {/* Decorative Elements */}
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-refiniti-cyan/5 blur-[80px] rounded-full pointer-events-none"></div>
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-sadaya-gold/5 blur-[80px] rounded-full pointer-events-none"></div>
                                 
                                 {/* Header */}
                                 <div className="flex justify-between items-start mb-16 relative z-10">
                                     <div>
                                         <div className="flex items-center gap-2 mb-6">
-                                             <span className="text-3xl font-headline font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-refiniti-cyan to-refiniti-blue">
-                                                REFINITI
+                                             <span className="text-3xl font-headline font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-sadaya-gold to-sadaya-tan">
+                                                SADAYA SANCTUARY
                                              </span>
                                              <span className="text-3xl font-headline font-light text-slate-500">AI</span>
                                         </div>
                                         <div className="text-slate-400 font-body font-thin text-sm leading-relaxed">
-                                            Refiniti Operations<br/>
-                                            123 Innovation Drive<br/>
-                                            Silicon Valley, CA 94025<br/>
-                                            billing@refiniti.ai
+                                            Sadaya Sanctuary Operations<br/>
+                                            123 Healing Lane<br/>
+                                            Wellness Valley, CA 90210<br/>
+                                            hello@sadayasanctuary.com
                                         </div>
                                     </div>
                                     <div className="text-right">
                                         <h1 className="text-5xl font-headline font-light text-white mb-2">INVOICE</h1>
-                                        <p className="text-refiniti-cyan font-mono text-lg tracking-widest">#{activeInvoice.id}</p>
+                                        <p className="text-sadaya-gold font-mono text-lg tracking-widest">#{activeInvoice.id}</p>
                                         <div className="mt-6 space-y-1">
                                             <div className="flex justify-end gap-4 text-sm font-body font-thin">
                                                 <span className="text-slate-500">Issued:</span>
@@ -489,7 +489,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                                         </div>
                                         <div className="border-t border-white/10 pt-3 flex justify-between items-baseline">
                                             <span className="font-headline font-bold text-white">Total Due</span>
-                                            <span className="font-headline font-light text-3xl text-refiniti-cyan">${activeInvoice.amount.toLocaleString()}</span>
+                                            <span className="font-headline font-light text-3xl text-sadaya-gold">${activeInvoice.amount.toLocaleString()}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -521,7 +521,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                     {/* SIDEBAR: EMAIL AI */}
                     <div className="lg:col-span-1 space-y-6">
                         {/* Status Card */}
-                        <div className="glass-panel p-6 rounded-2xl border-t-4 border-refiniti-cyan">
+                        <div className="glass-panel p-6 rounded-2xl border-t-4 border-sadaya-gold">
                             <h3 className="font-headline font-light text-slate-400 text-sm uppercase mb-1">Invoice Status</h3>
                             <div className="text-3xl font-headline font-medium text-white mb-4">{activeInvoice.status}</div>
                             <div className="flex flex-col gap-2">
@@ -540,7 +540,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                         {activeInvoice.status !== 'Draft' && canEdit && (
                             <div className="glass-panel p-6 rounded-2xl relative overflow-hidden">
                                 <div className="flex items-center gap-2 mb-4">
-                                    <div className="w-2 h-2 rounded-full bg-refiniti-cyan animate-pulse"></div>
+                                    <div className="w-2 h-2 rounded-full bg-sadaya-gold animate-pulse"></div>
                                     <h3 className="font-headline font-bold text-white">Varia Email Agent</h3>
                                 </div>
 
@@ -552,7 +552,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                                         </p>
                                         <button 
                                             onClick={() => prepareEmail(activeInvoice)}
-                                            className="w-full py-3 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-refiniti-cyan/50 text-white rounded-lg transition-all font-headline font-light text-sm"
+                                            className="w-full py-3 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-sadaya-gold/50 text-white rounded-lg transition-all font-headline font-light text-sm"
                                         >
                                             Generate Draft
                                         </button>
@@ -561,7 +561,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
 
                                 {isGeneratingEmail && (
                                     <div className="text-center py-12">
-                                        <Loader2 className="w-8 h-8 text-refiniti-cyan animate-spin mx-auto mb-4"/>
+                                        <Loader2 className="w-8 h-8 text-sadaya-gold animate-spin mx-auto mb-4"/>
                                         <p className="text-slate-300 font-headline font-light">Drafting communication...</p>
                                     </div>
                                 )}
@@ -574,7 +574,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                                                 <input 
                                                     value={emailDraft.subject} 
                                                     onChange={(e) => setEmailDraft({...emailDraft, subject: e.target.value})}
-                                                    className="w-full bg-black/40 border border-white/10 rounded p-2 text-sm text-white font-body font-light mt-1 focus:border-refiniti-cyan outline-none"
+                                                    className="w-full bg-black/40 border border-white/10 rounded p-2 text-sm text-white font-body font-light mt-1 focus:border-sadaya-gold outline-none"
                                                 />
                                             </div>
                                             <div>
@@ -583,13 +583,13 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                                                     value={emailDraft.body}
                                                     onChange={(e) => setEmailDraft({...emailDraft, body: e.target.value})}
                                                     rows={8}
-                                                    className="w-full bg-black/40 border border-white/10 rounded p-2 text-sm text-white font-body font-thin mt-1 focus:border-refiniti-cyan outline-none resize-none"
+                                                    className="w-full bg-black/40 border border-white/10 rounded p-2 text-sm text-white font-body font-thin mt-1 focus:border-sadaya-gold outline-none resize-none"
                                                 />
                                             </div>
                                         </div>
                                         <div className="flex gap-3">
                                             <button onClick={() => setEmailDraft(null)} className="flex-1 py-3 border border-white/10 text-slate-400 rounded-lg hover:text-white transition-colors font-headline font-light text-sm">Discard</button>
-                                            <button onClick={sendEmail} className="flex-1 py-3 bg-refiniti-cyan text-black rounded-lg hover:bg-white transition-colors font-headline font-medium text-sm flex justify-center items-center shadow-lg shadow-cyan-900/20">
+                                            <button onClick={sendEmail} className="flex-1 py-3 bg-sadaya-gold text-black rounded-lg hover:bg-white transition-colors font-headline font-medium text-sm flex justify-center items-center shadow-lg shadow-cyan-900/20">
                                                 <Send className="w-4 h-4 mr-2"/> Send
                                             </button>
                                         </div>

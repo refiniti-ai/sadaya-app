@@ -39,7 +39,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, defaultO
                  <input 
                     value={title}
                     onChange={(e) => onTitleChange && onTitleChange(e.target.value)}
-                    className="bg-black/40 border border-white/20 rounded px-2 py-1 text-white font-bold w-full focus:border-refiniti-cyan outline-none"
+                    className="bg-black/40 border border-white/20 rounded px-2 py-1 text-white font-bold w-full focus:border-sadaya-gold outline-none"
                     onClick={(e) => e.stopPropagation()}
                     placeholder="Strategy Title"
                 />
@@ -59,7 +59,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, defaultO
             </button>
         )}
         <button onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <ChevronUp className="w-4 h-4 text-refiniti-cyan"/> : <ChevronDown className="w-4 h-4 text-slate-500"/>}
+            {isOpen ? <ChevronUp className="w-4 h-4 text-sadaya-gold"/> : <ChevronDown className="w-4 h-4 text-slate-500"/>}
         </button>
       </div>
       {isOpen && (
@@ -346,7 +346,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                      setFormData({ selectedOrgId: '', selectedUserIds: [], clientName: '', industry: '', website: '', selectedServices: [], notes: '' });
                      setViewMode('create');
                  }}
-                 className="px-6 py-2 bg-gradient-to-r from-refiniti-cyan to-refiniti-blue text-white font-bold rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center hover:opacity-90 transition-all font-headline"
+                 className="px-6 py-2 bg-gradient-to-r from-sadaya-gold to-sadaya-tan text-white font-bold rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center hover:opacity-90 transition-all font-headline"
                >
                  <Plus className="w-4 h-4 mr-2" /> Initialize Proposal
                </button>
@@ -372,10 +372,10 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                     className="hover:bg-white/5 transition-colors cursor-pointer group"
                     onClick={() => handleProposalClick(p)}
                 >
-                  <td className="p-4 font-bold text-white group-hover:text-refiniti-cyan transition-colors">{p.clientName}</td>
+                  <td className="p-4 font-bold text-white group-hover:text-sadaya-gold transition-colors">{p.clientName}</td>
                   <td className="p-4 text-slate-400">{p.createdAt}</td>
                   <td className="p-4 text-slate-300 truncate max-w-[200px]">{p.services.join(', ')}</td>
-                  <td className="p-4 text-refiniti-cyan font-mono">${p.estimatedUpfront.toLocaleString()}</td>
+                  <td className="p-4 text-sadaya-gold font-mono">${p.estimatedUpfront.toLocaleString()}</td>
                   <td className="p-4">
                     <span className={`px-2 py-1 rounded text-xs font-bold border ${
                       p.status === ProposalStatus.ACCEPTED ? 'bg-green-500/10 text-green-400 border-green-500/20' :
@@ -416,7 +416,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
             <button onClick={() => setViewMode('list')} className="text-slate-400 hover:text-white text-sm uppercase font-bold tracking-wider">← Back</button>
             <h2 className="text-2xl font-display text-white font-headline">Initialize New Proposal</h2>
           </div>
-          <div className="glass-panel p-8 rounded-2xl border-t border-refiniti-cyan/30 shadow-[0_0_40px_rgba(6,182,212,0.05)]">
+          <div className="glass-panel p-8 rounded-2xl border-t border-sadaya-gold/30 shadow-[0_0_40px_rgba(6,182,212,0.05)]">
              {/* ... Form Inputs ... */}
              <div className="grid grid-cols-2 gap-6 mb-6">
                  {/* ... Inputs ... */}
@@ -427,7 +427,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                         <select 
                             value={formData.selectedOrgId}
                             onChange={(e) => handleOrgSelection(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 rounded-lg font-body font-light appearance-none text-white focus:border-refiniti-cyan outline-none bg-[#0f172a]"
+                            className="w-full pl-10 pr-4 py-3 rounded-lg font-body font-light appearance-none text-white focus:border-sadaya-gold outline-none bg-[#0f172a]"
                         >
                             <option value="">Select Organization...</option>
                             {organizations.map(org => (
@@ -461,7 +461,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                      onClick={() => toggleService(service)}
                      className={`text-left px-4 py-3 rounded-lg text-sm border transition-all duration-300 font-body ${
                        formData.selectedServices.includes(service)
-                         ? 'bg-refiniti-blue/20 border-refiniti-cyan text-white shadow-[0_0_10px_rgba(6,182,212,0.2)]'
+                         ? 'bg-sadaya-tan/20 border-sadaya-gold text-white shadow-[0_0_10px_rgba(6,182,212,0.2)]'
                          : 'bg-slate-900/40 border-slate-700 text-slate-400 hover:border-slate-500'
                      }`}
                    >
@@ -483,7 +483,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
               <button 
                 onClick={handleGenerate}
                 disabled={!formData.selectedOrgId}
-                className="px-8 py-4 bg-white text-black font-display font-bold rounded-lg hover:bg-refiniti-cyan hover:text-white transition-all duration-300 flex items-center shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-headline"
+                className="px-8 py-4 bg-white text-black font-display font-bold rounded-lg hover:bg-sadaya-gold hover:text-white transition-all duration-300 flex items-center shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-headline"
               >
                 <FileText className="w-5 h-5 mr-2" />
                 GENERATE PROPOSAL
@@ -500,10 +500,10 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
     return (
       <div className="flex flex-col items-center justify-center h-full space-y-6 animate-pulse">
         <div className="relative">
-          <div className="absolute inset-0 bg-refiniti-accent blur-xl opacity-20 animate-ping"></div>
-          <Loader2 className="w-16 h-16 text-refiniti-accent animate-spin relative z-10" />
+          <div className="absolute inset-0 bg-sadaya-sage blur-xl opacity-20 animate-ping"></div>
+          <Loader2 className="w-16 h-16 text-sadaya-sage animate-spin relative z-10" />
         </div>
-        <h3 className="text-xl font-display text-refiniti-cyan tracking-wider font-headline">VARIA IS THINKING...</h3>
+        <h3 className="text-xl font-display text-sadaya-gold tracking-wider font-headline">VARIA IS THINKING...</h3>
         <p className="text-slate-400 font-body font-light">Analyzing industry trends and formulating strategy</p>
       </div>
     );
@@ -515,13 +515,13 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
   return (
     <div className="h-full flex flex-col relative">
       {/* Toolbar */}
-      <div className="sticky top-0 z-20 bg-refiniti-dark/90 backdrop-blur border-b border-white/10 p-4 flex justify-between items-center mb-6">
+      <div className="sticky top-0 z-20 bg-sadaya-forest/90 backdrop-blur border-b border-white/10 p-4 flex justify-between items-center mb-6">
          <div className="flex items-center gap-4">
              <button onClick={() => setViewMode('list')} className="text-slate-400 hover:text-white flex items-center gap-2 font-headline"><ChevronLeft className="w-4 h-4"/> Back to List</button>
              {isEditable ? (
                  <button 
                     onClick={() => setIsEditingContent(!isEditingContent)} 
-                    className={`text-sm font-bold px-3 py-1 rounded border transition-colors ${isEditingContent ? 'bg-refiniti-cyan text-black border-refiniti-cyan' : 'text-slate-400 border-white/20 hover:text-white'}`}
+                    className={`text-sm font-bold px-3 py-1 rounded border transition-colors ${isEditingContent ? 'bg-sadaya-gold text-black border-sadaya-gold' : 'text-slate-400 border-white/20 hover:text-white'}`}
                 >
                     {isEditingContent ? 'Editing Enabled' : 'Enable Editing'}
                 </button>
@@ -550,7 +550,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                     disabled={saveState !== 'idle' || !isEditable}
                     className={`px-4 py-2 border text-sm rounded flex items-center transition-all duration-300 font-headline ${
                         saveState === 'saved' ? 'border-green-500 text-green-400 bg-green-500/10' : 
-                        saveState === 'saving' ? 'border-refiniti-cyan text-refiniti-cyan bg-refiniti-cyan/10' : 
+                        saveState === 'saving' ? 'border-sadaya-gold text-sadaya-gold bg-sadaya-gold/10' : 
                         'border-white/20 text-slate-300 hover:bg-white/10 disabled:opacity-50'
                     }`}
                  >
@@ -567,7 +567,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                 ) : (
                     <button 
                         onClick={handleSendToClient} 
-                        className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white transition-colors shadow-[0_0_15px_rgba(6,182,212,0.4)] font-headline flex items-center"
+                        className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white transition-colors shadow-[0_0_15px_rgba(6,182,212,0.4)] font-headline flex items-center"
                     >
                         <Send className="w-4 h-4 mr-2"/> Send to Client
                     </button>
@@ -585,12 +585,12 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                     {isEditingContent ? (
                         <div className="space-y-4 mb-6">
                             <input 
-                                className="w-full bg-black/50 text-center text-4xl text-white font-headline border border-white/20 rounded p-2 focus:border-refiniti-cyan outline-none"
+                                className="w-full bg-black/50 text-center text-4xl text-white font-headline border border-white/20 rounded p-2 focus:border-sadaya-gold outline-none"
                                 value={generatedContent.hero.title}
                                 onChange={(e) => handleUpdateContent('hero', 'title', e.target.value)}
                             />
                             <input 
-                                className="w-full bg-black/50 text-center text-slate-400 font-body border border-white/20 rounded p-2 focus:border-refiniti-cyan outline-none"
+                                className="w-full bg-black/50 text-center text-slate-400 font-body border border-white/20 rounded p-2 focus:border-sadaya-gold outline-none"
                                 value={generatedContent.hero.subtitle}
                                 onChange={(e) => handleUpdateContent('hero', 'subtitle', e.target.value)}
                             />
@@ -601,8 +601,8 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                             {generatedContent.hero.title}
                             </h1>
                             {/* ... */}
-                            <h2 className="text-2xl md:text-3xl font-display text-transparent bg-clip-text bg-gradient-to-r from-refiniti-cyan to-refiniti-blue neon-text mb-6 font-headline">
-                            Refiniti Strategic Plan
+                            <h2 className="text-2xl md:text-3xl font-display text-transparent bg-clip-text bg-gradient-to-r from-sadaya-gold to-sadaya-tan neon-text mb-6 font-headline">
+                            Sadaya Strategic Plan
                             </h2>
                             <p className="text-slate-400 max-w-xl mx-auto text-sm md:text-base font-body font-light">
                             {generatedContent.hero.subtitle}
@@ -614,10 +614,10 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                 {/* ... Engine Card ... */}
                 <div className="grid md:grid-cols-12 gap-8 mb-12 items-center">
                     <div className="md:col-span-5 text-sm text-slate-300 space-y-4 font-body font-light">
-                        <h3 className="text-white font-bold font-display text-lg font-headline">The Refiniti Engine</h3>
+                        <h3 className="text-white font-bold font-display text-lg font-headline">The Sadaya Path</h3>
                         {isEditingContent ? (
                              <textarea 
-                                className="w-full bg-black/50 text-slate-300 border border-white/20 rounded p-2 h-32 focus:border-refiniti-cyan outline-none resize-none"
+                                className="w-full bg-black/50 text-slate-300 border border-white/20 rounded p-2 h-32 focus:border-sadaya-gold outline-none resize-none"
                                 value={generatedContent.engine.description}
                                 onChange={(e) => handleUpdateContent('engine', 'description', e.target.value)}
                             />
@@ -628,7 +628,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                     {/* ... Visuals ... */}
                     <div className="md:col-span-7">
                         <div className="bg-[#0a0f1c] border border-white/10 rounded-2xl p-6 flex items-center justify-between relative overflow-hidden group">
-                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-refiniti-cyan/20 blur-3xl rounded-full"></div>
+                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-sadaya-gold/20 blur-3xl rounded-full"></div>
                              {/* ... Icons ... */}
                              <div className="flex flex-col gap-4 relative z-10">
                                 <div className="p-2 bg-white/5 rounded-lg border border-white/5"><Users className="w-4 h-4 text-slate-500"/></div>
@@ -636,14 +636,14 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                              </div>
 
                              <div className="text-center relative z-10">
-                                 <BrainCircuit className="w-12 h-12 text-refiniti-cyan mx-auto mb-2 animate-pulse"/>
-                                 <span className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Refiniti Engine</span>
-                                 <div className="h-0.5 w-12 bg-gradient-to-r from-transparent via-refiniti-cyan to-transparent mx-auto mt-2"></div>
+                                 <BrainCircuit className="w-12 h-12 text-sadaya-gold mx-auto mb-2 animate-pulse"/>
+                                 <span className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Sadaya Integration</span>
+                                 <div className="h-0.5 w-12 bg-gradient-to-r from-transparent via-sadaya-gold to-transparent mx-auto mt-2"></div>
                              </div>
 
                              <div className="text-center relative z-10">
-                                 <div className="w-10 h-10 rounded-full bg-refiniti-cyan/20 flex items-center justify-center mx-auto mb-2 border border-refiniti-cyan/50">
-                                     <DollarSign className="w-5 h-5 text-refiniti-cyan"/>
+                                 <div className="w-10 h-10 rounded-full bg-sadaya-gold/20 flex items-center justify-center mx-auto mb-2 border border-sadaya-gold/50">
+                                     <DollarSign className="w-5 h-5 text-sadaya-gold"/>
                                  </div>
                                  <div className="text-xl font-display font-bold text-green-400 font-mono">
                                      {isEditingContent ? (
@@ -678,12 +678,12 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                           {isEditingContent ? (
                               <div className="mb-4 space-y-2 pr-10">
                                   <input 
-                                    className="w-full bg-transparent font-display text-white text-xl font-bold border-b border-white/10 focus:border-refiniti-cyan outline-none"
+                                    className="w-full bg-transparent font-display text-white text-xl font-bold border-b border-white/10 focus:border-sadaya-gold outline-none"
                                     value={phase.title}
                                     onChange={(e) => handleUpdateContent('phases', 'title', e.target.value, idx, 'title')}
                                   />
                                   <input 
-                                    className="w-full bg-transparent text-sm text-slate-400 border-b border-white/10 focus:border-refiniti-cyan outline-none"
+                                    className="w-full bg-transparent text-sm text-slate-400 border-b border-white/10 focus:border-sadaya-gold outline-none"
                                     value={phase.description}
                                     onChange={(e) => handleUpdateContent('phases', 'description', e.target.value, idx, 'description')}
                                   />
@@ -700,11 +700,11 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                               <ul className="space-y-2">
                                   {phase.items.map((item, i) => (
                                       <li key={i} className="flex items-start gap-2 font-body font-light">
-                                          <div className="mt-2 w-1.5 h-1.5 rounded-full bg-refiniti-cyan flex-shrink-0"></div>
+                                          <div className="mt-2 w-1.5 h-1.5 rounded-full bg-sadaya-gold flex-shrink-0"></div>
                                           {isEditingContent ? (
                                               <div className="flex-1 flex gap-2 items-center">
                                                   <input 
-                                                    className="w-full bg-black/20 border border-white/10 rounded px-2 py-1 text-sm text-slate-300 focus:border-refiniti-cyan outline-none"
+                                                    className="w-full bg-black/20 border border-white/10 rounded px-2 py-1 text-sm text-slate-300 focus:border-sadaya-gold outline-none"
                                                     value={item}
                                                     onChange={(e) => updatePhaseItem(idx, i, e.target.value)}
                                                   />
@@ -724,7 +724,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                                             newPhases[idx].items.push("New Deliverable");
                                             setGeneratedContent({...generatedContent, phases: newPhases});
                                         }}
-                                        className="text-xs text-refiniti-cyan flex items-center hover:underline mt-2"
+                                        className="text-xs text-sadaya-gold flex items-center hover:underline mt-2"
                                       >
                                           <Plus className="w-3 h-3 mr-1"/> Add Deliverable
                                       </button>
@@ -736,7 +736,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                    {isEditingContent && (
                        <button 
                          onClick={addPhase}
-                         className="w-full py-6 border-2 border-dashed border-white/10 rounded-xl text-slate-400 hover:text-refiniti-cyan hover:border-refiniti-cyan/30 hover:bg-white/5 transition-all flex items-center justify-center font-bold font-headline"
+                         className="w-full py-6 border-2 border-dashed border-white/10 rounded-xl text-slate-400 hover:text-sadaya-gold hover:border-sadaya-gold/30 hover:bg-white/5 transition-all flex items-center justify-center font-bold font-headline"
                        >
                            <Plus className="w-5 h-5 mr-2"/> Add New Phase
                        </button>
@@ -748,14 +748,14 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-xl font-display text-white font-headline">Investment Summary</h3>
                         {isEditingContent && (
-                            <button onClick={addInvestmentItem} className="text-xs text-refiniti-cyan hover:underline flex items-center">
+                            <button onClick={addInvestmentItem} className="text-xs text-sadaya-gold hover:underline flex items-center">
                                 <Plus className="w-3 h-3 mr-1"/> Add Item
                             </button>
                         )}
                     </div>
                     {/* ... Table logic ... */}
                     <div className="w-full overflow-hidden rounded-xl border border-white/10 font-sans text-sm">
-                        <div className={`grid ${isEditingContent ? 'grid-cols-4' : 'grid-cols-3'} bg-refiniti-cyan text-black font-bold uppercase tracking-wider text-xs py-3 px-4`}>
+                        <div className={`grid ${isEditingContent ? 'grid-cols-4' : 'grid-cols-3'} bg-sadaya-gold text-black font-bold uppercase tracking-wider text-xs py-3 px-4`}>
                             <div>Item</div>
                             <div>Cost (Initial)</div>
                             <div>Cost (Monthly)</div>
@@ -793,7 +793,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
 
                 {/* ... Strategy Section ... */}
                 <div className="mb-12">
-                    <h3 className="text-xl font-display text-white mb-2 font-headline">Refiniti Strategy</h3>
+                    <h3 className="text-xl font-display text-white mb-2 font-headline">Sadaya Strategy</h3>
                     <div className="space-y-2">
                         {generatedContent.strategy.map((s, i) => (
                             <AccordionItem 
@@ -805,7 +805,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                             >
                                 {isEditingContent ? (
                                     <textarea 
-                                        className="w-full bg-black/40 border border-white/10 rounded p-2 text-slate-300 min-h-[100px] outline-none focus:border-refiniti-cyan"
+                                        className="w-full bg-black/40 border border-white/10 rounded p-2 text-slate-300 min-h-[100px] outline-none focus:border-sadaya-gold"
                                         value={s.content}
                                         onChange={(e) => handleUpdateContent('strategy', '', e.target.value, i, 'content')}
                                     />
@@ -818,7 +818,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                     {isEditingContent && (
                         <button 
                             onClick={addStrategyItem}
-                            className="mt-4 w-full py-4 border border-dashed border-white/10 rounded-lg text-slate-400 hover:text-refiniti-cyan hover:bg-white/5 transition-all flex items-center justify-center font-bold text-sm uppercase tracking-wide"
+                            className="mt-4 w-full py-4 border border-dashed border-white/10 rounded-lg text-slate-400 hover:text-sadaya-gold hover:bg-white/5 transition-all flex items-center justify-center font-bold text-sm uppercase tracking-wide"
                         >
                             <Plus className="w-4 h-4 mr-2"/> Add Strategy Point
                         </button>
@@ -830,13 +830,13 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                      <div className="flex justify-between items-center mb-4">
                         <h3 className="text-xl font-display text-white font-headline">Ad Spend & Performance Targets</h3>
                         {isEditingContent && (
-                            <button onClick={addAdSpendItem} className="text-xs text-refiniti-cyan hover:underline flex items-center">
+                            <button onClick={addAdSpendItem} className="text-xs text-sadaya-gold hover:underline flex items-center">
                                 <Plus className="w-3 h-3 mr-1"/> Add Phase
                             </button>
                         )}
                      </div>
                      <div className="w-full overflow-hidden rounded-xl border border-white/10 font-sans text-sm">
-                        <div className={`grid ${isEditingContent ? 'grid-cols-5' : 'grid-cols-4'} bg-refiniti-cyan text-black font-bold uppercase tracking-wider text-xs py-3 px-4`}>
+                        <div className={`grid ${isEditingContent ? 'grid-cols-5' : 'grid-cols-4'} bg-sadaya-gold text-black font-bold uppercase tracking-wider text-xs py-3 px-4`}>
                             <div>Phase</div>
                             <div>Spend</div>
                             <div>CPL Target</div>
@@ -851,7 +851,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                                             <input value={row.phase} onChange={(e) => handleUpdateContent('adSpend', '', e.target.value, i, 'phase')} className="bg-black/40 border border-white/10 rounded px-2 py-1 text-white w-full mr-1"/>
                                             <input value={row.monthlySpend} onChange={(e) => handleUpdateContent('adSpend', '', e.target.value, i, 'monthlySpend')} className="bg-black/40 border border-white/10 rounded px-2 py-1 text-green-400 w-full mr-1"/>
                                             <input value={row.targetCPL} onChange={(e) => handleUpdateContent('adSpend', '', e.target.value, i, 'targetCPL')} className="bg-black/40 border border-white/10 rounded px-2 py-1 text-green-400 w-full mr-1"/>
-                                            <input value={row.expectedLeads} onChange={(e) => handleUpdateContent('adSpend', '', e.target.value, i, 'expectedLeads')} className="bg-black/40 border border-white/10 rounded px-2 py-1 text-refiniti-cyan w-full"/>
+                                            <input value={row.expectedLeads} onChange={(e) => handleUpdateContent('adSpend', '', e.target.value, i, 'expectedLeads')} className="bg-black/40 border border-white/10 rounded px-2 py-1 text-sadaya-gold w-full"/>
                                             <div className="text-center">
                                                 <button onClick={() => deleteAdSpendItem(i)} className="text-slate-500 hover:text-red-400"><Trash2 className="w-4 h-4 mx-auto"/></button>
                                             </div>
@@ -861,7 +861,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                                             <div className="text-white">{row.phase}</div>
                                             <div className="text-green-400 font-mono">{row.monthlySpend}</div>
                                             <div className="text-green-400 font-mono">{row.targetCPL}</div>
-                                            <div className="text-refiniti-cyan font-mono">{row.expectedLeads}</div>
+                                            <div className="text-sadaya-gold font-mono">{row.expectedLeads}</div>
                                         </>
                                     )}
                                 </div>
@@ -878,7 +878,7 @@ export const ProposalBuilder: React.FC<ProposalBuilderProps> = ({ organizations,
                         </div>
                         <h3 className="text-2xl font-display text-white mb-4 font-headline">Ready to Initialize?</h3>
                         <p className="text-slate-400 font-body font-light mb-8 max-w-lg leading-relaxed">
-                            By accepting this strategic plan, you authorize Refiniti AI to begin the infrastructure setup and asset generation phases as outlined above.
+                            By accepting this strategic plan, you authorize Sadaya Sanctuary to begin the infrastructure setup and healing path generation phases as outlined above.
                         </p>
                         <button 
                             onClick={handleAcceptProposal}

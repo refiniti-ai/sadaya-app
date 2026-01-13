@@ -3,30 +3,40 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VARIA | Refiniti AI Operations</title>
+    <title>SADAYA SANCTUARY | Luxurious Wellness Retreat</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Inter:wght@100;200;300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      @font-face {
+        font-family: 'Carentro';
+        src: url('Fonts/Carentro.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              headline: ['Space Grotesk', 'sans-serif'],
-              body: ['Inter', 'sans-serif'],
-              sans: ['Inter', 'sans-serif'], // Default sans
+              headline: ['Carentro', 'serif'],
+              body: ['Montserrat', 'sans-serif'],
+              sans: ['Montserrat', 'sans-serif'],
             },
             colors: {
-              refiniti: {
-                dark: '#050a14',
-                panel: '#0f172a',
-                cyan: '#06b6d4',
-                blue: '#2563eb',
-                accent: '#00f0ff'
+              sadaya: {
+                forest: '#465244',
+                cream: '#e6d2c5',
+                tan: '#d7baa0',
+                earth: '#b69977',
+                gold: '#f6dfbc',
+                sage: '#becdb6',
+                dark: '#2d342c', // Slightly lighter than forest for backgrounds
               }
             },
             backgroundImage: {
               'glass': 'linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
-              'neon-gradient': 'linear-gradient(to right, #06b6d4, #2563eb)',
+              'sadaya-gradient': 'linear-gradient(to right, #465244, #b69977)',
             }
           }
         }
@@ -34,13 +44,13 @@
     </script>
     <style>
       body {
-        background-color: #020408;
+        background-color: #2d342c;
         background-image: 
-          radial-gradient(circle at 15% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 25%),
-          radial-gradient(circle at 85% 30%, rgba(37, 99, 235, 0.08) 0%, transparent 25%);
-        color: #e2e8f0;
-        font-family: 'Inter', sans-serif;
-        font-weight: 300; /* Default to thin/light as requested */
+          radial-gradient(circle at 15% 50%, rgba(190, 205, 182, 0.08) 0%, transparent 25%),
+          radial-gradient(circle at 85% 30%, rgba(215, 186, 160, 0.08) 0%, transparent 25%);
+        color: #e6d2c5;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
       }
       /* Custom Scrollbar */
       ::-webkit-scrollbar {
@@ -48,42 +58,40 @@
         height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(230, 210, 197, 0.02);
       }
       ::-webkit-scrollbar-thumb {
-        background: rgba(6, 182, 212, 0.3);
+        background: rgba(182, 153, 119, 0.3);
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: rgba(6, 182, 212, 0.5);
+        background: rgba(182, 153, 119, 0.5);
       }
       .glass-panel {
-        background: rgba(15, 23, 42, 0.6);
+        background: rgba(70, 82, 68, 0.6);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(230, 210, 197, 0.08);
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
       }
       .glass-input {
         background: rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(6, 182, 212, 0.2);
-        color: white;
+        border: 1px solid rgba(182, 153, 119, 0.2);
+        color: #f6dfbc;
       }
       .glass-input:focus {
-        border-color: #06b6d4;
-        box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+        border-color: #f6dfbc;
+        box-shadow: 0 0 10px rgba(246, 223, 188, 0.2);
         outline: none;
       }
       .neon-text {
-        text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        text-shadow: 0 0 10px rgba(246, 223, 188, 0.3);
       }
-      .font-headline-light {
-        font-family: 'Space Grotesk', sans-serif;
-        font-weight: 300;
+      .font-headline {
+        font-family: 'Carentro', serif;
       }
-      .font-body-thin {
-        font-family: 'Inter', sans-serif;
-        font-weight: 200;
+      .font-body {
+        font-family: 'Montserrat', sans-serif;
       }
     </style>
   <script type="importmap">
@@ -100,5 +108,6 @@
 </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

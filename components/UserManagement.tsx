@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User, UserRole, Organization } from '../types';
-import { Users, Building, Shield, Plus, Edit2, Search, MoreHorizontal, Check, X, Phone, Mail, Lock, Globe, LogIn, Trash2, Ban } from 'lucide-react';
+import { Users, Building, Shield, Plus, Edit2, Search, MoreHorizontal, Check, X, Phone, Mail, Lock, Globe, LogIn, Trash2, Ban, Image as ImageIcon } from 'lucide-react';
 
 // --- Form State Interfaces ---
 interface UserFormState {
@@ -10,6 +10,8 @@ interface UserFormState {
   phone: string;
   password: string;
   permissions: string[];
+  bio: string;
+  profilePicture: string;
 }
 
 const INITIAL_USER_FORM: UserFormState = {
@@ -18,7 +20,9 @@ const INITIAL_USER_FORM: UserFormState = {
   email: '',
   phone: '',
   password: '',
-  permissions: []
+  permissions: [],
+  bio: '',
+  profilePicture: ''
 };
 
 interface OrgFormState {
@@ -43,6 +47,7 @@ const PERMISSION_MODULES = [
     { id: 'support', label: 'Support Center', types: ['view', 'edit'] },
     { id: 'users', label: 'Users & Access', types: ['view', 'edit'] },
     { id: 'marketing', label: 'Marketing AI', types: ['view', 'edit'] },
+    { id: 'classes', label: 'Classes & Events', types: ['view', 'edit'] },
 ];
 
 interface UserManagementProps {
@@ -109,7 +114,9 @@ export const UserManagement: React.FC<UserManagementProps> = ({
           email: user.email,
           phone: user.phone || '',
           password: '', // Don't show existing password
-          permissions: user.permissions
+          permissions: user.permissions,
+          bio: user.bio || '',
+          profilePicture: user.profilePicture || ''
       });
       setIsModalOpen(true);
   };
@@ -272,7 +279,9 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                   phone: orgFormData.adminUser.phone,
                   role: UserRole.CLIENT,
                   status: 'Active',
-                  permissions: orgFormData.adminUser.permissions
+                  permissions: orgFormData.adminUser.permissions,
+                  bio: orgFormData.adminUser.bio,
+                  profilePicture: orgFormData.adminUser.profilePicture
               }]
           };
           setOrganizations([...organizations, newOrg]);
@@ -299,7 +308,9 @@ export const UserManagement: React.FC<UserManagementProps> = ({
               name: `${userFormData.firstName} ${userFormData.lastName}`,
               email: userFormData.email,
               phone: userFormData.phone,
-              permissions: u.role === UserRole.SUPER_ADMIN ? u.permissions : userFormData.permissions // Prevent editing super admin permissions
+              permissions: u.role === UserRole.SUPER_ADMIN ? u.permissions : userFormData.permissions, // Prevent editing super admin permissions
+              bio: userFormData.bio,
+              profilePicture: userFormData.profilePicture
           } : u));
       }
 
@@ -329,7 +340,9 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                   name: `${userFormData.firstName} ${userFormData.lastName}`,
                   email: userFormData.email,
                   phone: userFormData.phone,
-                  permissions: userFormData.permissions
+                  permissions: userFormData.permissions,
+                  bio: userFormData.bio,
+                  profilePicture: userFormData.profilePicture
               } : u)
           } : org));
       }
@@ -360,7 +373,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                   disabled={disabled}
                                   className={`px-3 py-1.5 rounded text-xs font-bold uppercase transition-all flex items-center gap-2 ${
                                       isChecked 
-                                      ? 'bg-refiniti-cyan text-black border border-refiniti-cyan shadow-[0_0_8px_rgba(6,182,212,0.3)]' 
+                                      ? 'bg-sadaya-gold text-black border border-sadaya-gold shadow-[0_0_8px_rgba(6,182,212,0.3)]' 
                                       : 'bg-white/5 text-slate-500 border border-white/10 hover:bg-white/10'
                                   } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                               >
@@ -387,14 +400,14 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                 {!isClient && (
                     <button 
                         onClick={() => setViewMode('team')}
-                        className={`flex-1 md:flex-none px-6 py-2 rounded-md text-sm font-headline transition-all ${viewMode === 'team' ? 'bg-refiniti-cyan text-black font-bold' : 'text-slate-400 hover:text-white'}`}
+                        className={`flex-1 md:flex-none px-6 py-2 rounded-md text-sm font-headline transition-all ${viewMode === 'team' ? 'bg-sadaya-gold text-black font-bold' : 'text-slate-400 hover:text-white'}`}
                     >
                         Team Members
                     </button>
                 )}
                 <button 
                     onClick={() => setViewMode('clients')}
-                    className={`flex-1 md:flex-none px-6 py-2 rounded-md text-sm font-headline transition-all ${viewMode === 'clients' ? 'bg-refiniti-cyan text-black font-bold' : 'text-slate-400 hover:text-white'}`}
+                    className={`flex-1 md:flex-none px-6 py-2 rounded-md text-sm font-headline transition-all ${viewMode === 'clients' ? 'bg-sadaya-gold text-black font-bold' : 'text-slate-400 hover:text-white'}`}
                 >
                     {isClient ? 'My Organization' : 'Client Accounts'}
                 </button>
@@ -408,7 +421,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                 <input 
                     type="text" 
                     placeholder="Search users or organizations..." 
-                    className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-2 text-sm text-white focus:border-refiniti-cyan outline-none font-body font-light"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-2 text-sm text-white focus:border-sadaya-gold outline-none font-body font-light"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -442,7 +455,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                             <tr key={user.id} className="hover:bg-white/5 transition-colors">
                                 <td className="p-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-refiniti-cyan to-blue-600 flex items-center justify-center text-xs font-bold text-black">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sadaya-gold to-blue-600 flex items-center justify-center text-xs font-bold text-black">
                                             {user.name.charAt(0)}
                                         </div>
                                         <div>
@@ -452,7 +465,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                     </div>
                                 </td>
                                 <td className="p-4">
-                                    <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${user.role === UserRole.SUPER_ADMIN ? 'bg-refiniti-cyan/20 text-refiniti-cyan border border-refiniti-cyan/30' : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'}`}>
+                                    <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${user.role === UserRole.SUPER_ADMIN ? 'bg-sadaya-gold/20 text-sadaya-gold border border-sadaya-gold/30' : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'}`}>
                                         {user.role}
                                     </span>
                                 </td>
@@ -467,7 +480,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                 <td className="p-4">
                                     <div className="flex flex-wrap gap-1 max-w-xs">
                                         {user.role === UserRole.SUPER_ADMIN ? (
-                                            <span className="text-xs text-refiniti-cyan flex items-center"><Shield className="w-3 h-3 mr-1"/> Full Access</span>
+                                            <span className="text-xs text-sadaya-gold flex items-center"><Shield className="w-3 h-3 mr-1"/> Full Access</span>
                                         ) : (
                                             <>
                                                 {user.permissions.length > 0 ? (
@@ -485,7 +498,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                         {isSuperAdmin && currentUser.id !== user.id && (
                                             <button 
                                                 onClick={() => onLoginAs(user)}
-                                                className="p-2 text-slate-400 hover:text-refiniti-cyan hover:bg-white/5 rounded transition-colors"
+                                                className="p-2 text-slate-400 hover:text-sadaya-gold hover:bg-white/5 rounded transition-colors"
                                                 title={`Login as ${user.name}`}
                                             >
                                                 <LogIn className="w-4 h-4"/>
@@ -539,7 +552,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                         >
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                                    <Building className="w-5 h-5 text-refiniti-cyan"/>
+                                    <Building className="w-5 h-5 text-sadaya-gold"/>
                                 </div>
                                 <div className="overflow-hidden">
                                     <h3 className="text-white font-headline font-bold truncate">{org.name}</h3>
@@ -595,7 +608,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                     {canEditUsers && (
                                         <button 
                                             onClick={() => openAddClientUserModal(org.id)}
-                                            className="text-xs text-refiniti-cyan hover:underline font-bold flex items-center"
+                                            className="text-xs text-sadaya-gold hover:underline font-bold flex items-center"
                                         >
                                             <Plus className="w-3 h-3 mr-1"/> Add User
                                         </button>
@@ -622,6 +635,12 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                             </div>
                                             <div className="flex items-center justify-between md:justify-end gap-4 mt-2 md:mt-0">
                                                  <div className="flex flex-col items-start md:items-end">
+                                                     <span className="text-xs text-slate-400">Waiver Status</span>
+                                                     <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${user.waiverSigned ? 'text-green-400 bg-green-500/10 border border-green-500/20' : 'text-sadaya-gold bg-sadaya-gold/10 border border-sadaya-gold/20'}`}>
+                                                        {user.waiverSigned ? `Signed (${user.waiverSignedDate})` : 'Pending'}
+                                                     </span>
+                                                 </div>
+                                                 <div className="flex flex-col items-start md:items-end">
                                                      <span className="text-xs text-slate-400">Permissions</span>
                                                      <span className="text-xs text-white">{user.permissions.length} modules</span>
                                                  </div>
@@ -629,7 +648,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                                      {isSuperAdmin && (
                                                          <button 
                                                             onClick={() => onLoginAs(user)}
-                                                            className="text-slate-500 hover:text-refiniti-cyan p-1"
+                                                            className="text-slate-500 hover:text-sadaya-gold p-1"
                                                             title="Login as User"
                                                          >
                                                              <LogIn className="w-4 h-4"/>
@@ -692,7 +711,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                         {/* 1. ORGANIZATION DETAILS SECTION (Only for ADD_ORG) */}
                         {modalType === 'ADD_ORG' && (
                             <div className="space-y-4">
-                                <h3 className="text-xs font-bold text-refiniti-cyan uppercase tracking-widest border-b border-white/5 pb-2">Organization Details</h3>
+                                <h3 className="text-xs font-bold text-sadaya-gold uppercase tracking-widest border-b border-white/5 pb-2">Organization Details</h3>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-1">
                                         <label className="text-xs text-slate-400">Organization Name</label>
@@ -700,7 +719,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                             <Building className="absolute left-3 top-2.5 w-4 h-4 text-slate-500"/>
                                             <input 
                                                 value={orgFormData.name} onChange={(e) => handleOrgFormChange('name', e.target.value)}
-                                                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-refiniti-cyan outline-none" 
+                                                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-sadaya-gold outline-none" 
                                             />
                                         </div>
                                     </div>
@@ -708,7 +727,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                         <label className="text-xs text-slate-400">Industry</label>
                                         <input 
                                             value={orgFormData.industry} onChange={(e) => handleOrgFormChange('industry', e.target.value)}
-                                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:border-refiniti-cyan outline-none" 
+                                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:border-sadaya-gold outline-none" 
                                         />
                                     </div>
                                     <div className="col-span-2 space-y-1">
@@ -717,7 +736,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                             <Globe className="absolute left-3 top-2.5 w-4 h-4 text-slate-500"/>
                                             <input 
                                                 value={orgFormData.website} onChange={(e) => handleOrgFormChange('website', e.target.value)}
-                                                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-refiniti-cyan outline-none" 
+                                                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-sadaya-gold outline-none" 
                                                 placeholder="https://"
                                             />
                                         </div>
@@ -728,7 +747,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
 
                         {/* 2. USER DETAILS SECTION (Dynamic based on mode) */}
                         <div className="space-y-4">
-                            <h3 className="text-xs font-bold text-refiniti-cyan uppercase tracking-widest border-b border-white/5 pb-2">
+                            <h3 className="text-xs font-bold text-sadaya-gold uppercase tracking-widest border-b border-white/5 pb-2">
                                 {modalType === 'ADD_ORG' ? 'Primary Admin Contact' : 'User Information'}
                             </h3>
                             
@@ -738,7 +757,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                     <input 
                                         value={modalType === 'ADD_ORG' ? orgFormData.adminUser.firstName : userFormData.firstName}
                                         onChange={(e) => modalType === 'ADD_ORG' ? handleOrgAdminChange('firstName', e.target.value) : handleUserFormChange('firstName', e.target.value)}
-                                        className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:border-refiniti-cyan outline-none" 
+                                        className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:border-sadaya-gold outline-none" 
                                     />
                                 </div>
                                 <div className="space-y-1">
@@ -746,7 +765,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                     <input 
                                         value={modalType === 'ADD_ORG' ? orgFormData.adminUser.lastName : userFormData.lastName}
                                         onChange={(e) => modalType === 'ADD_ORG' ? handleOrgAdminChange('lastName', e.target.value) : handleUserFormChange('lastName', e.target.value)}
-                                        className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:border-refiniti-cyan outline-none" 
+                                        className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:border-sadaya-gold outline-none" 
                                     />
                                 </div>
                                 <div className="space-y-1">
@@ -757,7 +776,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                             type="email"
                                             value={modalType === 'ADD_ORG' ? orgFormData.adminUser.email : userFormData.email}
                                             onChange={(e) => modalType === 'ADD_ORG' ? handleOrgAdminChange('email', e.target.value) : handleUserFormChange('email', e.target.value)}
-                                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-refiniti-cyan outline-none" 
+                                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-sadaya-gold outline-none" 
                                         />
                                     </div>
                                 </div>
@@ -768,9 +787,30 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                         <input 
                                             value={modalType === 'ADD_ORG' ? orgFormData.adminUser.phone : userFormData.phone}
                                             onChange={(e) => modalType === 'ADD_ORG' ? handleOrgAdminChange('phone', e.target.value) : handleUserFormChange('phone', e.target.value)}
-                                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-refiniti-cyan outline-none" 
+                                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-sadaya-gold outline-none" 
                                         />
                                     </div>
+                                </div>
+                                <div className="col-span-2 space-y-1">
+                                    <label className="text-xs text-slate-400">Profile Picture URL</label>
+                                    <div className="relative">
+                                        <ImageIcon className="absolute left-3 top-2.5 w-4 h-4 text-slate-500"/>
+                                        <input 
+                                            value={modalType === 'ADD_ORG' ? orgFormData.adminUser.profilePicture : userFormData.profilePicture}
+                                            onChange={(e) => modalType === 'ADD_ORG' ? handleOrgAdminChange('profilePicture', e.target.value) : handleUserFormChange('profilePicture', e.target.value)}
+                                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-sadaya-gold outline-none" 
+                                            placeholder="https://..."
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-span-2 space-y-1">
+                                    <label className="text-xs text-slate-400">Bio</label>
+                                    <textarea 
+                                        value={modalType === 'ADD_ORG' ? orgFormData.adminUser.bio : userFormData.bio}
+                                        onChange={(e) => modalType === 'ADD_ORG' ? handleOrgAdminChange('bio', e.target.value) : handleUserFormChange('bio', e.target.value)}
+                                        className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:border-sadaya-gold outline-none h-20" 
+                                        placeholder="Brief biography..."
+                                    />
                                 </div>
                                 <div className="col-span-2 space-y-1">
                                     <label className="text-xs text-slate-400">Set Password</label>
@@ -780,7 +820,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                             type="password"
                                             value={modalType === 'ADD_ORG' ? orgFormData.adminUser.password : userFormData.password}
                                             onChange={(e) => modalType === 'ADD_ORG' ? handleOrgAdminChange('password', e.target.value) : handleUserFormChange('password', e.target.value)}
-                                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-refiniti-cyan outline-none" 
+                                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 pl-9 text-sm text-white focus:border-sadaya-gold outline-none" 
                                             placeholder="••••••••"
                                         />
                                     </div>
@@ -791,7 +831,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                 <label className="text-xs text-slate-400 flex justify-between">
                                     <span>Access Permissions</span>
                                     {editingUserId && teamMembers.find(u => u.id === editingUserId)?.role === UserRole.SUPER_ADMIN && (
-                                        <span className="text-refiniti-cyan font-bold flex items-center"><Shield className="w-3 h-3 mr-1"/> Super Admin Access Locked</span>
+                                        <span className="text-sadaya-gold font-bold flex items-center"><Shield className="w-3 h-3 mr-1"/> Super Admin Access Locked</span>
                                     )}
                                 </label>
                                 <PermissionSelector 
@@ -819,7 +859,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                             </button>
                             <button 
                                 onClick={handleSubmit}
-                                className="px-6 py-2 bg-refiniti-cyan text-black font-bold rounded hover:bg-white transition-colors text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+                                className="px-6 py-2 bg-sadaya-gold text-black font-bold rounded hover:bg-white transition-colors text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)]"
                             >
                                 Save Configuration
                             </button>
