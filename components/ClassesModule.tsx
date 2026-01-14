@@ -187,6 +187,21 @@ export const ClassesModule: React.FC<ClassesModuleProps> = ({
       }
       return e;
     }));
+
+    // Record payment in Billing/Invoices
+    const newInvoice: Invoice = {
+      id: `EVT-${Date.now()}`,
+      clientName: currentUser.name,
+      amount: selectedEvent.price,
+      type: 'One-Time',
+      status: 'Paid',
+      dueDate: new Date().toISOString().split('T')[0],
+      issueDate: new Date().toISOString().split('T')[0],
+      terms: 'Immediate',
+      items: [{ description: `Event Signup: ${selectedEvent.name}`, cost: selectedEvent.price }]
+    };
+    
+    if (onPayment) onPayment(newInvoice);
     
     setShowPaymentModal(false);
     setSelectedEvent(null);

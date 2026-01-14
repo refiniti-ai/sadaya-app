@@ -55,15 +55,17 @@ interface UserManagementProps {
     setOrganizations: React.Dispatch<React.SetStateAction<Organization[]>>;
     teamMembers: User[];
     setTeamMembers: React.Dispatch<React.SetStateAction<User[]>>;
+    individuals: User[];
+    setIndividuals: React.Dispatch<React.SetStateAction<User[]>>;
     currentUser: User;
     onLoginAs: (user: User) => void;
 }
 
 export const UserManagement: React.FC<UserManagementProps> = ({ 
-    organizations, setOrganizations, teamMembers, setTeamMembers, currentUser, onLoginAs 
+    organizations, setOrganizations, teamMembers, setTeamMembers, individuals, setIndividuals, currentUser, onLoginAs 
 }) => {
   // If Client, force client view. Otherwise default to team.
-  const [viewMode, setViewMode] = useState<'team' | 'clients'>(currentUser.role === UserRole.CLIENT ? 'clients' : 'team');
+  const [viewMode, setViewMode] = useState<'team' | 'clients' | 'individuals'>(currentUser.role === UserRole.CLIENT ? 'clients' : 'team');
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedOrg, setExpandedOrg] = useState<string | null>(null);
   
@@ -72,7 +74,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({
 
   // --- Modal State ---
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<'ADD_ORG' | 'ADD_TEAM' | 'EDIT_TEAM' | 'ADD_CLIENT_USER' | 'EDIT_CLIENT_USER'>('ADD_ORG');
+  const [modalType, setModalType] = useState<'ADD_ORG' | 'ADD_TEAM' | 'EDIT_TEAM' | 'ADD_CLIENT_USER' | 'EDIT_CLIENT_USER' | 'ADD_INDIVIDUAL' | 'EDIT_INDIVIDUAL'>('ADD_ORG');
   
   // IDs for editing context
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
@@ -85,6 +87,9 @@ export const UserManagement: React.FC<UserManagementProps> = ({
   const canEditUsers = currentUser.permissions.includes('edit_users');
   const isSuperAdmin = currentUser.role === UserRole.SUPER_ADMIN;
   const isClient = currentUser.role === UserRole.CLIENT;
+
+  // Handle z-index and visibility for dropdowns in organizations view
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // --- Handlers ---
 
@@ -139,7 +144,32 @@ export const UserManagement: React.FC<UserManagementProps> = ({
           email: user.email,
           phone: user.phone || '',
           password: '',
-          permissions: user.permissions
+          permissions: user.permissions,
+          bio: user.bio || '',
+          profilePicture: user.profilePicture || ''
+      });
+      setIsModalOpen(true);
+  };
+
+  const openAddIndividualModal = () => {
+      setModalType('ADD_INDIVIDUAL');
+      setUserFormData(INITIAL_USER_FORM);
+      setIsModalOpen(true);
+  };
+
+  const openEditIndividualModal = (user: User) => {
+      setModalType('EDIT_INDIVIDUAL');
+      setEditingUserId(user.id);
+      const [first, ...rest] = user.name.split(' ');
+      setUserFormData({
+          firstName: first,
+          lastName: rest.join(' '),
+          email: user.email,
+          phone: user.phone || '',
+          password: '',
+          permissions: user.permissions,
+          bio: user.bio || '',
+          profilePicture: user.profilePicture || ''
       });
       setIsModalOpen(true);
   };
@@ -212,6 +242,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({
             }
             return org;
         }));
+    } else {
+        setIndividuals(prev => prev.filter(u => u.id !== userId));
     }
     
     // 4. CLOSE MODAL IF OPEN
@@ -232,6 +264,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({
               }
               return org;
           }));
+      } else {
+          setIndividuals(prev => prev.map(u => u.id === userId ? { ...u, status: u.status === 'Suspended' ? 'Active' : 'Suspended' } : u));
       }
   };
 
@@ -345,6 +379,35 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                   profilePicture: userFormData.profilePicture
               } : u)
           } : org));
+      }
+
+      // 6. ADD INDIVIDUAL
+      if (modalType === 'ADD_INDIVIDUAL') {
+          const newUser: User = {
+              id: `ind-${Date.now()}`,
+              name: `${userFormData.firstName} ${userFormData.lastName}`,
+              email: userFormData.email,
+              phone: userFormData.phone,
+              role: UserRole.CLIENT,
+              status: 'Active',
+              permissions: userFormData.permissions,
+              bio: userFormData.bio,
+              profilePicture: userFormData.profilePicture
+          };
+          setIndividuals([...individuals, newUser]);
+      }
+
+      // 7. EDIT INDIVIDUAL
+      if (modalType === 'EDIT_INDIVIDUAL' && editingUserId) {
+          setIndividuals(individuals.map(u => u.id === editingUserId ? {
+              ...u,
+              name: `${userFormData.firstName} ${userFormData.lastName}`,
+              email: userFormData.email,
+              phone: userFormData.phone,
+              permissions: userFormData.permissions,
+              bio: userFormData.bio,
+              profilePicture: userFormData.profilePicture
+          } : u));
       }
 
       setIsModalOpen(false);
@@ -580,16 +643,16 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                                             <MoreHorizontal className="w-5 h-5"/>
                                         </button>
                                         {activeOrgMenuId === org.id && (
-                                            <div className="absolute right-0 top-8 w-48 bg-[#0f172a] border border-white/10 rounded-lg shadow-xl z-50 overflow-hidden">
+                                            <div className="absolute right-0 top-full mt-2 w-48 bg-[#0f172a] border border-white/10 rounded-lg shadow-2xl z-[100] overflow-hidden">
                                                 <button 
                                                     onClick={(e) => toggleOrgStatus(org.id, e)}
-                                                    className="w-full text-left px-4 py-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white border-b border-white/5"
+                                                    className="w-full text-left px-4 py-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white border-b border-white/5 transition-colors"
                                                 >
                                                     {org.status === 'Suspended' ? 'Activate Account' : 'Suspend Account'}
                                                 </button>
                                                 <button 
                                                     onClick={(e) => deleteOrg(org.id, e)}
-                                                    className="w-full text-left px-4 py-3 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300"
+                                                    className="w-full text-left px-4 py-3 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"
                                                 >
                                                     Delete Account
                                                 </button>
@@ -692,6 +755,63 @@ export const UserManagement: React.FC<UserManagementProps> = ({
             </div>
         )}
 
+        {/* INDIVIDUALS VIEW */}
+        {viewMode === 'individuals' && !isClient && (
+            <div className="glass-panel rounded-xl overflow-hidden border border-white/10 overflow-x-auto">
+                <table className="w-full text-left min-w-[800px]">
+                    <thead className="bg-white/5 text-slate-400 text-xs font-headline font-bold uppercase tracking-wider">
+                        <tr>
+                            <th className="p-4">Name</th>
+                            <th className="p-4">Status</th>
+                            <th className="p-4">Contact</th>
+                            <th className="p-4">Permissions</th>
+                            <th className="p-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                        {individuals.filter(u => u.name.toLowerCase().includes(searchQuery.toLowerCase()) || u.email.toLowerCase().includes(searchQuery.toLowerCase())).map(user => (
+                            <tr key={user.id} className="hover:bg-white/5 transition-colors">
+                                <td className="p-4">
+                                    <div className="flex items-center gap-3">
+                                        <img src={user.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`} className="w-8 h-8 rounded-full object-cover" alt="" />
+                                        <div>
+                                            <div className="text-white font-headline text-sm">{user.name}</div>
+                                            <div className="text-slate-500 font-body font-thin text-xs">{user.email}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td className="p-4">
+                                    <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${user.status === 'Suspended' ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-green-500/10 text-green-400 border border-green-500/20'}`}>
+                                        {user.status || 'Active'}
+                                    </span>
+                                </td>
+                                <td className="p-4 text-xs text-slate-400 font-mono">
+                                    {user.phone || 'N/A'}
+                                </td>
+                                <td className="p-4">
+                                    <span className="text-xs text-slate-400">{user.permissions.length} active permissions</span>
+                                </td>
+                                <td className="p-4 text-right">
+                                    <div className="flex justify-end items-center gap-2">
+                                        {isSuperAdmin && (
+                                            <button onClick={() => onLoginAs(user)} className="p-2 text-slate-400 hover:text-sadaya-gold hover:bg-white/5 rounded transition-colors" title={`Login as ${user.name}`}><LogIn className="w-4 h-4"/></button>
+                                        )}
+                                        {canEditUsers && (
+                                            <>
+                                                <button onClick={() => openEditIndividualModal(user)} className="p-2 text-slate-500 hover:text-white transition-colors" title="Edit"><Edit2 className="w-4 h-4"/></button>
+                                                <button onClick={(e) => toggleUserStatus(user.id, false, undefined, e)} className={`p-2 rounded transition-colors ${user.status === 'Suspended' ? 'text-green-400 hover:text-green-300' : 'text-orange-400 hover:text-orange-300'}`} title={user.status === 'Suspended' ? "Activate" : "Suspend"}><Ban className="w-4 h-4"/></button>
+                                                <button onClick={(e) => deleteUser(user.id, false, undefined, e)} className="p-2 text-red-400 hover:text-red-300 transition-colors" title="Delete"><Trash2 className="w-4 h-4"/></button>
+                                            </>
+                                        )}
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        )}
+
         {/* ... MODAL code remains the same ... */}
         {isModalOpen && (
             <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -703,6 +823,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({
                             {modalType === 'EDIT_TEAM' && 'Edit Team Member'}
                             {modalType === 'ADD_CLIENT_USER' && 'Add Client User'}
                             {modalType === 'EDIT_CLIENT_USER' && 'Edit Client User'}
+                            {modalType === 'ADD_INDIVIDUAL' && 'Add Individual Account'}
+                            {modalType === 'EDIT_INDIVIDUAL' && 'Edit Individual Account'}
                         </h2>
                         <button onClick={() => setIsModalOpen(false)}><X className="w-6 h-6 text-slate-500 hover:text-white"/></button>
                     </div>

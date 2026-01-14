@@ -102,7 +102,8 @@ const App: React.FC = () => {
       proposals: true,
       invoices: true,
       tasks: true,
-      tickets: true
+      tickets: true,
+      classes: true
   });
 
   // Refs for click outside
@@ -171,6 +172,12 @@ const App: React.FC = () => {
         ]
     },
       { id: 'org3', name: 'Serenity Foundation', industry: 'Non-Profit', status: 'Active', assignedEmployees: [], users: [] },
+  ]);
+
+  const [individuals, setIndividuals] = useState<User[]>([
+    { 
+        id: 'ind1', name: 'Michael Chen', email: 'michael@gmail.com', phone: '555-0301', role: UserRole.CLIENT, status: 'Active', waiverSigned: true, waiverSignedDate: '2026-01-05', permissions: ['view_dashboard', 'view_classes'], bio: 'Self-employed wellness seeker.', profilePicture: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop' 
+    }
   ]);
 
   const [teamMembers, setTeamMembers] = useState<User[]>([
@@ -827,12 +834,14 @@ const App: React.FC = () => {
 
   // Logo Component
   const Logo = () => (
-    <div className="flex items-center gap-2 font-display select-none">
-       <div className="relative">
+    <div className="flex flex-col font-display select-none">
+       <div className="relative leading-none">
          <span className="text-2xl font-headline font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-sadaya-gold to-sadaya-tan filter drop-shadow-[0_0_8px_rgba(246,223,188,0.3)]">
            SADAYA
          </span>
-         <span className="text-2xl font-headline font-light text-sadaya-sage ml-1 italic">SANCTUARY</span>
+       </div>
+       <div className="relative leading-none mt-1">
+         <span className="text-xl font-headline font-light text-sadaya-sage italic tracking-[0.2em]">SANCTUARY</span>
        </div>
     </div>
   );
@@ -902,21 +911,21 @@ const App: React.FC = () => {
 
         <div className="flex-1 p-4 overflow-y-auto">
           <div className="mb-6">
-            <p className="px-4 text-xs font-bold text-sadaya-sage uppercase tracking-widest mb-2 font-headline">Retreat Management</p>
-            <NavItem id="dashboard" label="Sanctuary Home" icon={LayoutDashboard} reqPerm="view_dashboard" />
-            <NavItem id="proposals" label="Care Plan Builder" icon={FileEdit} reqPerm="view_proposals" />
-            <NavItem id="operations" label="Integration Hub" icon={Briefcase} reqPerm="view_operations" />
-            <NavItem id="invoices" label="Billing & Payments" icon={CreditCard} reqPerm="view_finance" />
-            <NavItem id="support_center" label="Concierge Support" icon={LifeBuoy} reqPerm="view_support" />
-            <NavItem id="classes" label="Events & Classes" icon={Calendar} reqPerm="view_classes" />
-            <NavItem id="waivers" label="Signed Waivers" icon={Shield} reqPerm="view_dashboard" />
-            <NavItem id="users" label={currentUser.role === UserRole.CLIENT ? "Guest & Access" : "Staff & Access"} icon={Users} reqPerm="view_users" />
+            <p className="px-4 text-xs font-bold text-sadaya-sage uppercase tracking-widest mb-2 font-headline">Main Navigation</p>
+            <NavItem id="dashboard" label="Dashboard" icon={LayoutDashboard} reqPerm="view_dashboard" />
+            <NavItem id="proposals" label="Retreats" icon={FileEdit} reqPerm="view_proposals" />
+            <NavItem id="operations" label="Integration" icon={Briefcase} reqPerm="view_operations" />
+            <NavItem id="invoices" label="Billing" icon={CreditCard} reqPerm="view_finance" />
+            <NavItem id="support_center" label="Concierge" icon={LifeBuoy} reqPerm="view_support" />
+            <NavItem id="classes" label="Events" icon={Calendar} reqPerm="view_classes" />
+            <NavItem id="waivers" label="Waivers" icon={Shield} reqPerm="view_dashboard" />
+            <NavItem id="users" label="Users" icon={Users} reqPerm="view_users" />
           </div>
           
           <div className="mb-6">
-            <p className="px-4 text-xs font-bold text-sadaya-sage uppercase tracking-widest mb-2 font-headline">Insights</p>
-            <NavItem id="marketing" label="Wellness Analytics" icon={BarChart} reqPerm="view_marketing" />
-            <NavItem id="communication" label="Guest Chat" icon={MessageCircle} reqPerm="view_operations" />
+            <p className="px-4 text-xs font-bold text-sadaya-sage uppercase tracking-widest mb-2 font-headline">Tools</p>
+            <NavItem id="marketing" label="Wellness AI" icon={BarChart} reqPerm="view_marketing" />
+            <NavItem id="communication" label="Chat" icon={MessageCircle} reqPerm="view_operations" />
           </div>
         </div>
 
@@ -1298,6 +1307,8 @@ const App: React.FC = () => {
                     <InvoiceSystem 
                         invoices={getFilteredInvoices()} 
                         onUpdateInvoices={setInvoices}
+                        organizations={organizations}
+                        individuals={individuals}
                         currentUser={currentUser}
                     />
                 )}
@@ -1315,6 +1326,8 @@ const App: React.FC = () => {
                         setOrganizations={setOrganizations}
                         teamMembers={teamMembers}
                         setTeamMembers={setTeamMembers}
+                        individuals={individuals}
+                        setIndividuals={setIndividuals}
                         currentUser={currentUser}
                         onLoginAs={handleLoginAs}
                     />
@@ -1353,6 +1366,7 @@ const App: React.FC = () => {
                         teamMembers={teamMembers}
                         events={events}
                         setEvents={setEvents}
+                        onPayment={(inv) => setInvoices(prev => [inv, ...prev])}
                     />
                 )}
 

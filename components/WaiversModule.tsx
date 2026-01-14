@@ -99,12 +99,12 @@ export const WaiversModule: React.FC<WaiversModuleProps> = ({ waivers, currentUs
         <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
           <div className="w-full max-w-4xl bg-sadaya-forest border border-white/10 rounded-3xl shadow-2xl flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200 overflow-hidden">
             <div className="p-6 border-b border-white/10 flex justify-between items-center bg-black/40">
-              <div className="flex items-center gap-3">
-                <Shield className="w-6 h-6 text-sadaya-gold" />
-                <h2 className="text-xl font-headline text-white font-bold uppercase tracking-wider">
-                  Signed Waiver: {selectedWaiver.userName}
-                </h2>
-              </div>
+            <div className="flex items-center gap-3">
+              <Settings className="w-6 h-6 text-sadaya-gold" />
+              <h2 className="text-xl font-headline text-white font-bold uppercase tracking-wider">
+                Digital Agreement & Waiver
+              </h2>
+            </div>
               <button 
                 onClick={() => setSelectedWaiver(null)}
                 className="p-2 hover:bg-white/10 rounded-full transition-colors"
@@ -113,59 +113,69 @@ export const WaiversModule: React.FC<WaiversModuleProps> = ({ waivers, currentUs
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-8 md:p-12 font-body text-slate-300 leading-relaxed custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-8 md:p-12 font-body text-slate-300 leading-relaxed custom-scrollbar bg-[#080c14]">
               <div className="max-w-2xl mx-auto space-y-8">
                 <div className="text-center mb-12 border-b border-white/5 pb-12">
                    <h1 className="text-3xl font-headline font-bold text-white mb-4">SADAYA SANCTUARY</h1>
                    <p className="text-sadaya-gold font-bold uppercase tracking-[0.3em] text-sm">Legal Agreement & Release of Liability</p>
                 </div>
 
-                <section>
-                  <h4 className="text-white font-bold uppercase text-sm mb-4 tracking-widest">1. Mission & Environment</h4>
-                  <p className="text-sm">At Sadaya Sanctuary our mission is to provide a safe place for the integration of all change in life. We do this by providing a safe, healthy and holistic environment. Where all nationalities, genders, race, species, orientations, religions and sovereign beings are able to heal, grow and expand together. Sadaya Sanctuary sits on religious land. Together our mission is to raise the vibration of the collective.</p>
-                </section>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 space-y-6">
+                  <section>
+                    <h4 className="text-white font-bold uppercase text-xs mb-3 tracking-widest flex items-center gap-2">
+                      <Shield className="w-4 h-4 text-sadaya-gold" /> 1. Mission & Environment
+                    </h4>
+                    <p className="text-sm leading-relaxed text-slate-400">At Sadaya Sanctuary our mission is to provide a safe place for the integration of all change in life. We do this by providing a safe, healthy and holistic environment. Where all nationalities, genders, race, species, orientations, religions and sovereign beings are able to heal, grow and expand together. Sadaya Sanctuary sits on religious land. Together our mission is to raise the vibration of the collective.</p>
+                  </section>
 
-                <section>
-                  <h4 className="text-white font-bold uppercase text-sm mb-4 tracking-widest">2. Waiver of Liability</h4>
-                  <p className="text-sm italic">"For the purposes of this Agreement, the term 'Participant' refers to the individual signing this document. All references to 'I,' 'me,' or 'my' within this Agreement shall mean and apply to the Participant."</p>
-                  <p className="text-sm mt-4">The Participant voluntarily assumes all risks related to activities provided by Sadaya Sanctuary, including but not limited to meditation, yoga, breathwork, and alternative holistic modalities. These activities are not a substitute for medical diagnosis or treatment.</p>
-                </section>
+                  <section>
+                    <h4 className="text-white font-bold uppercase text-xs mb-3 tracking-widest flex items-center gap-2">
+                      <FileText className="w-4 h-4 text-sadaya-gold" /> 2. Waiver of Liability
+                    </h4>
+                    <p className="text-sm italic text-slate-400">"For the purposes of this Agreement, the term 'Participant' refers to the individual signing this document. All references to 'I,' 'me,' or 'my' within this Agreement shall mean and apply to the Participant."</p>
+                    <p className="text-sm mt-4 leading-relaxed text-slate-400">The Participant voluntarily assumes all risks related to activities provided by Sadaya Sanctuary, including but not limited to meditation, yoga, breathwork, and alternative holistic modalities. These activities are not a substitute for medical diagnosis or treatment.</p>
+                  </section>
 
-                <section>
-                  <h4 className="text-white font-bold uppercase text-sm mb-4 tracking-widest">3. Privacy & Confidentiality</h4>
-                  <p className="text-sm">Sadaya respects the confidentiality of all individuals. Any personal, medical, or spiritual information provided remains private. Unauthorized recording or sharing of others' experiences is strictly prohibited.</p>
-                </section>
+                  <section>
+                    <h4 className="text-white font-bold uppercase text-xs mb-3 tracking-widest flex items-center gap-2">
+                      <Eye className="w-4 h-4 text-sadaya-gold" /> 3. Privacy & Confidentiality
+                    </h4>
+                    <p className="text-sm leading-relaxed text-slate-400">Sadaya respects the confidentiality of all individuals. Any personal, medical, or spiritual information provided remains private. Unauthorized recording or sharing of others' experiences is strictly prohibited.</p>
+                  </section>
+                </div>
 
-                <div className="mt-16 pt-16 border-t-2 border-sadaya-gold/20 grid grid-cols-2 gap-12">
-                   <div>
-                      <p className="text-[10px] text-sadaya-sage uppercase font-bold tracking-widest mb-4">Executed Signature</p>
-                      <div className="font-headline text-3xl text-white italic border-b border-white/20 pb-2 mb-2">
+                <div className="mt-16 pt-12 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-12">
+                   <div className="space-y-2">
+                      <p className="text-[10px] text-sadaya-sage uppercase font-bold tracking-widest">Executed Digital Signature</p>
+                      <div className="font-headline text-4xl text-sadaya-gold italic">
                         {selectedWaiver.signature}
                       </div>
-                      <p className="text-xs text-slate-500 font-medium">Digital Signature ID: {selectedWaiver.id}</p>
+                      <div className="h-px bg-white/10 w-full mt-2"></div>
+                      <p className="text-[10px] text-slate-500 font-mono">ID: {selectedWaiver.id}</p>
                    </div>
-                   <div>
-                      <p className="text-[10px] text-sadaya-sage uppercase font-bold tracking-widest mb-4">Date of Signing</p>
-                      <div className="font-mono text-2xl text-white border-b border-white/20 pb-2 mb-2">
+                   <div className="space-y-2">
+                      <p className="text-[10px] text-sadaya-sage uppercase font-bold tracking-widest">Execution Date</p>
+                      <div className="font-mono text-2xl text-white">
                         {selectedWaiver.signedDate}
                       </div>
-                      <p className="text-xs text-slate-500 font-medium">Status: Legally Binding</p>
+                      <div className="h-px bg-white/10 w-full mt-2"></div>
+                      <p className="text-[10px] text-green-500 font-bold">STATUS: LEGALLY BINDING</p>
                    </div>
-                   <div className="col-span-2">
-                      <p className="text-[10px] text-sadaya-sage uppercase font-bold tracking-widest mb-4">Animal Waiver Initials</p>
-                      <div className="inline-block px-6 py-2 bg-sadaya-gold/10 border border-sadaya-gold/30 rounded-lg text-white font-headline text-xl">
+                   <div className="col-span-full pt-4">
+                      <p className="text-[10px] text-sadaya-sage uppercase font-bold tracking-widest mb-3">Animal Waiver Confirmation Initials</p>
+                      <div className="inline-flex items-center justify-center w-16 h-16 bg-sadaya-gold/10 border border-sadaya-gold/30 rounded-xl text-white font-headline text-2xl shadow-[0_0_15px_rgba(246,223,188,0.1)]">
                         {selectedWaiver.initials}
                       </div>
                    </div>
                 </div>
 
-                <div className="mt-12 p-6 bg-white/5 rounded-2xl border border-white/5 flex items-center gap-6">
-                   <div className="w-16 h-16 rounded-full bg-sadaya-gold/10 flex items-center justify-center shrink-0">
-                      <CheckCircle className="w-8 h-8 text-sadaya-gold" />
+                <div className="mt-12 p-8 bg-green-500/5 rounded-3xl border border-green-500/10 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+                   <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+                      <CheckCircle className="w-8 h-8 text-green-400" />
                    </div>
                    <div>
-                      <h5 className="text-white font-bold">Verification Complete</h5>
-                      <p className="text-xs opacity-60">This document was signed through the Sadaya Secure Portal and is archived for compliance purposes.</p>
+                      <h5 className="text-white font-bold text-lg mb-1">Verification Certified</h5>
+                      <p className="text-xs text-slate-400 leading-relaxed">This document was executed via the Sadaya Secure Portal. The participant has verified their identity and acknowledged all terms of service and liability releases.</p>
                    </div>
                 </div>
               </div>

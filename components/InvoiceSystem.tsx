@@ -9,17 +9,24 @@ import {
 interface InvoiceSystemProps {
     invoices: Invoice[];
     onUpdateInvoices: (invoices: Invoice[]) => void;
+    organizations: Organization[];
+    individuals: User[];
     currentUser: User;
 }
 
-// Mock clients for dropdown
-const MOCK_CLIENTS = ['Executive Wellness Group', 'Holistic Life Path', 'Serenity Foundation', 'Sadaya Sanctuary Internal'];
-
-export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdateInvoices, currentUser }) => {
+export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ 
+    invoices, onUpdateInvoices, organizations, individuals, currentUser 
+}) => {
   const [viewMode, setViewMode] = useState<'list' | 'detail' | 'edit'>('list');
   const [activeInvoice, setActiveInvoice] = useState<Invoice | null>(null);
   const [emailDraft, setEmailDraft] = useState<{subject: string, body: string} | null>(null);
   const [isGeneratingEmail, setIsGeneratingEmail] = useState(false);
+
+  const ALL_CLIENTS = [
+    ...organizations.map(o => o.name),
+    ...individuals.map(i => i.name),
+    'Sadaya Sanctuary Internal'
+  ];
 
   // Form State for Create/Edit
   const [formData, setFormData] = useState<Partial<Invoice>>({
@@ -42,7 +49,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
   const handleCreateNew = () => {
       setFormData({
           id: `INV-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
-          clientName: MOCK_CLIENTS[0],
+          clientName: ALL_CLIENTS[0],
           type: 'One-Time',
           terms: 'Immediate',
           status: 'Draft',
@@ -196,7 +203,7 @@ export const InvoiceSystem: React.FC<InvoiceSystemProps> = ({ invoices, onUpdate
                               onChange={(e) => handleFormChange('clientName', e.target.value)}
                               className="w-full bg-[#0f172a] border border-white/10 rounded p-2 text-white focus:border-sadaya-gold outline-none"
                           >
-                              {MOCK_CLIENTS.map(c => <option key={c} value={c}>{c}</option>)}
+                              {ALL_CLIENTS.map(c => <option key={c} value={c}>{c}</option>)}
                           </select>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
