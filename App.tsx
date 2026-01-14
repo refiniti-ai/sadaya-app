@@ -42,7 +42,8 @@ import {
   TrendingUp,
   AlertTriangle,
   MessageCircle,
-  Shield
+  Shield,
+  ShieldCheck
 } from 'lucide-react';
 
 // ... (INITIAL_DRIVE_ITEMS const remains the same)
@@ -204,6 +205,24 @@ const App: React.FC = () => {
   // Current User State
   const [currentUser, setCurrentUser] = useState<User>(teamMembers[0]);
   const [originalUser, setOriginalUser] = useState<User | null>(null); // For reverting "Login As"
+
+  // SECURITY: Prevent deleted users from staying logged in
+  useEffect(() => {
+    const allUsers = [
+      ...teamMembers,
+      ...organizations.flatMap(org => org.users),
+      ...individuals
+    ];
+    
+    const userStillExists = allUsers.some(u => u.id === currentUser.id);
+    
+    if (!userStillExists && currentUser.role !== UserRole.SUPER_ADMIN && !originalUser) {
+      // Revert to first team member (Admin) if current user is deleted
+      setCurrentUser(teamMembers[0]);
+      setOriginalUser(null);
+      setView('dashboard');
+    }
+  }, [teamMembers, organizations, individuals, currentUser.id]);
 
   // Projects & Tasks
   const [projects, setProjects] = useState<Project[]>([
@@ -914,6 +933,7 @@ const App: React.FC = () => {
             <p className="px-4 text-xs font-bold text-sadaya-sage uppercase tracking-widest mb-2 font-headline">Main Navigation</p>
             <NavItem id="dashboard" label="Dashboard" icon={LayoutDashboard} reqPerm="view_dashboard" />
             <NavItem id="proposals" label="Retreats" icon={FileEdit} reqPerm="view_proposals" />
+            <NavItem id="availability" label="Availability" icon={Clock} reqPerm="view_dashboard" />
             <NavItem id="operations" label="Integration" icon={Briefcase} reqPerm="view_operations" />
             <NavItem id="invoices" label="Billing" icon={CreditCard} reqPerm="view_finance" />
             <NavItem id="support_center" label="Concierge" icon={LifeBuoy} reqPerm="view_support" />
@@ -1145,6 +1165,51 @@ const App: React.FC = () => {
                           </div>
                         </div>
 
+                        {/* Manager Analytics Bar (Visible to Admin/Head) */}
+                        {(currentUser.role === UserRole.SUPER_ADMIN || currentUser.role === UserRole.OPS_HEAD) && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-top-2">
+                                <div className="glass-panel p-6 rounded-2xl border border-white/10 flex items-center justify-between">
+                                    <div>
+                                        <h4 className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Average Inspection Score</h4>
+                                        <div className="flex items-end gap-2">
+                                            <span className="text-3xl font-headline font-bold text-white">
+                                                {(() => {
+                                                    const tasksWithScores = tasks.filter(t => t.report?.inspectionScore !== undefined);
+                                                    if (tasksWithScores.length === 0) return '94.8%';
+                                                    const avg = tasksWithScores.reduce((sum, t) => sum + (t.report?.inspectionScore || 0), 0) / tasksWithScores.length;
+                                                    return `${avg.toFixed(1)}%`;
+                                                })()}
+                                            </span>
+                                            <span className="text-green-400 text-xs font-bold mb-1 flex items-center">
+                                                <TrendingUp className="w-3 h-3 mr-1"/> +2.4%
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
+                                        <ShieldCheck className="w-6 h-6 text-green-400" />
+                                    </div>
+                                </div>
+                                <div className="glass-panel p-6 rounded-2xl border border-white/10 flex items-center justify-between">
+                                    <div>
+                                        <h4 className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Pending Partner Payouts</h4>
+                                        <div className="flex items-end gap-2">
+                                            <span className="text-3xl font-headline font-bold text-sadaya-gold">
+                                                ${(() => {
+                                                    // Placeholder calculation for pending payouts
+                                                    const unpaidInvoices = invoices.filter(i => i.status === 'Pending').reduce((sum, i) => sum + i.amount, 0);
+                                                    return unpaidInvoices.toLocaleString();
+                                                })()}
+                                            </span>
+                                            <span className="text-slate-500 text-xs mb-1">Due in 7 days</span>
+                                        </div>
+                                    </div>
+                                    <div className="w-12 h-12 rounded-xl bg-sadaya-gold/10 border border-sadaya-gold/20 flex items-center justify-center">
+                                        <CreditCard className="w-6 h-6 text-sadaya-gold" />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         {/* ANALYTICS & HEALTH SECTION */}
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                             {/* Analytics Chart (Simulated) */}
@@ -1230,7 +1295,7 @@ const App: React.FC = () => {
                                 <h3 className="text-lg font-bold text-white font-headline flex items-center gap-2">
                                     <AlertTriangle className="w-5 h-5 text-sadaya-tan"/> Sanctuary Priorities
                                 </h3>
-                                <button className="text-xs text-sadaya-gold hover:underline">View All</button>
+                                <button onClick={() => setView('history')} className="text-xs text-sadaya-gold hover:underline font-bold">View History</button>
                             </div>
                             <div className="divide-y divide-white/5">
                                 {tasks.filter(t => t.priority === 'High' && t.status !== TaskStatus.DONE).slice(0, 3).map(t => (
@@ -1368,6 +1433,68 @@ const App: React.FC = () => {
                         setEvents={setEvents}
                         onPayment={(inv) => setInvoices(prev => [inv, ...prev])}
                     />
+                )}
+
+                {view === 'availability' && (
+                    <div className="h-full flex flex-col animate-in fade-in duration-500">
+                        <div className="mb-8">
+                            <h2 className="text-3xl font-headline font-light text-white mb-2">My Availability</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-7 gap-4">
+                            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+                                <div key={day} className="glass-panel p-4 rounded-xl border border-white/10">
+                                    <h3 className="text-white font-bold mb-4">{day}</h3>
+                                    <div className="space-y-2">
+                                        {['09:00', '11:00', '14:00', '16:00'].map(slot => (
+                                            <div key={slot} className="p-2 bg-white/5 border border-white/5 rounded text-xs text-center hover:bg-sadaya-gold hover:text-black cursor-pointer transition-colors">
+                                                {slot}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {view === 'history' && (
+                    <div className="h-full flex flex-col animate-in fade-in duration-500">
+                        <div className="flex justify-between items-center mb-8">
+                            <div>
+                                <h2 className="text-3xl font-headline font-light text-white mb-2">Operations History</h2>
+                                <p className="text-slate-400 font-body font-thin text-lg">Review completed integration paths and historical performance.</p>
+                            </div>
+                            <button onClick={() => setView('dashboard')} className="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors">
+                                <ArrowLeft className="w-6 h-6"/>
+                            </button>
+                        </div>
+                        <div className="glass-panel rounded-2xl border border-white/10 overflow-hidden">
+                            <table className="w-full text-left">
+                                <thead className="bg-white/5 text-slate-500 text-xs font-bold uppercase tracking-widest">
+                                    <tr>
+                                        <th className="p-4">Integration Path</th>
+                                        <th className="p-4">Completed On</th>
+                                        <th className="p-4">Score</th>
+                                        <th className="p-4">Payout</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-white/5">
+                                    {[
+                                        { name: 'Executive Burnout Recovery - Phase 1', date: '2025-12-20', score: '98%', payout: '$1,200' },
+                                        { name: 'PTSD Integration Path - Phase 2', date: '2025-12-15', score: '92%', payout: '$850' },
+                                        { name: 'Holistic Nutritional Plan - Initial', date: '2025-12-10', score: '95%', payout: '$400' },
+                                    ].map((item, i) => (
+                                        <tr key={i} className="hover:bg-white/5 transition-colors">
+                                            <td className="p-4 text-white font-medium">{item.name}</td>
+                                            <td className="p-4 text-slate-400">{item.date}</td>
+                                            <td className="p-4 text-green-400 font-bold">{item.score}</td>
+                                            <td className="p-4 text-sadaya-gold font-mono">{item.payout}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 )}
 
              </div>

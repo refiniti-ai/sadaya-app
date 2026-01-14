@@ -143,9 +143,14 @@ export interface Task {
   dueDate: string;
   priority: 'High' | 'Medium' | 'Low';
   label?: TaskLabel;
-  checklist: { id: string; text: string; completed: boolean }[];
+  checklist: { id: string; text: string; completed: boolean; image?: string }[];
   isArchived?: boolean;
   attachments?: string[]; // IDs of DriveItems
+  report?: {
+    inspectionScore: number;
+    comments: string;
+    media: { type: 'image' | 'video'; url: string; category?: 'Before' | 'After' | 'Work' }[];
+  };
 }
 
 export interface DriveItem {

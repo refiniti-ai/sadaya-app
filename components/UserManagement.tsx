@@ -234,7 +234,6 @@ export const UserManagement: React.FC<UserManagementProps> = ({
     } else if (orgId) {
         setOrganizations(prev => prev.map(org => {
             if (org.id === orgId) {
-                // Ensure a deep copy of the users array is returned
                 return { 
                     ...org, 
                     users: org.users.filter(u => u.id !== userId) 
@@ -244,6 +243,11 @@ export const UserManagement: React.FC<UserManagementProps> = ({
         }));
     } else {
         setIndividuals(prev => prev.filter(u => u.id !== userId));
+    }
+
+    // CRITICAL: If the current user is being deleted, logout/revert immediately
+    if (currentUser.id === userId) {
+        onLoginAs(teamMembers.find(m => m.role === UserRole.SUPER_ADMIN) || teamMembers[0]);
     }
     
     // 4. CLOSE MODAL IF OPEN
